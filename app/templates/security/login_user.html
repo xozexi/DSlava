@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block title %}Home - My Website{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <form class="justify-content-center" method="post"
+              style="background: #8392cb; padding: 20px; border-radius: 10px; max-width: 500px; margin: 0 auto; display: flex; flex-direction: column; margin-top: 15vh">
+            <img class="mx-auto d-block" src="{{ url_for('static', filename='res/logo.png') }}" alt="logo"
+                 width="100px">
+            <div class="form-group">
+                <label for="exampleInputEmail1" class="font-weight-bold">Логин</label>
+                <input name="login" type="text" class="form-control" id="exampleInputEmail1"
+                       aria-describedby="emailHelp" placeholder="Введите логин">
+                {#    <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>#}
+            </div>
+            <div class="form-group">
+                <label for="exampleInputPassword1" class="font-weight-bold">Пароль</label>
+                <input name="password" type="password" class="form-control" id="exampleInputPassword1"
+                       placeholder="Пароль">
+            </div>
+            <button type="submit" class="btn bg-success text-light mt-4">Войти</button>
+            {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                    <div class="notification is-danger">
+                        {{ messages[0] }}
+                    </div>
+                {% endif %}
+            {% endwith %}
+        </form>
+    </div>
+{% endblock %}

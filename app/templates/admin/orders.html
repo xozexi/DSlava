@@ -1,0 +1,65 @@
+{% extends "admin/base_admin.html" %}
+
+{% block title %}Home - My Website{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <header class="d-flex justify-content-center py-3" style="background: whitesmoke">
+            <ul class="nav nav-pills">
+                <li class="nav-item"><a href="/admin" class="nav-link active" aria-current="page">
+                    <i class="bi bi-arrow-left-square"></i> Назад</a></li>
+            </ul>
+        </header>
+    </div>
+    <div class="container mt-5">
+        <div class="container py-5" style="border-radius: 10px; background: rgba(204,204,204,0.41) ">
+            {% for order in orders %}
+                {% set status_colors = {
+        'ожидание': '#c2bd3c',
+        'активно': 'green',
+        'выполнено': 'lightgreen',
+        'отклонено': 'red'
+    } %}
+                <ul class="list-group my-2">
+                    <li class="list-group-item active fs-4" aria-current="true">Заказ: №{{ order.id }}
+                        <span class="badge text-bg-secondary"
+                              style="background: {{ status_colors[order.status] }}">{{ order.status }}</span>
+                        <span class="badge text-bg-light text-success"
+                              style="background: whitesmoke">Дата: {{ order.date.strftime("%d.%m.%Y") }}</span>
+                        {% if order.status == 'ожидание' %}
+                            <a href="{{ url_for('accept_order', order_id=order.id) }}">
+                                <button type="button" class="btn btn-success" aria-label="Close" style="float: right; background: #54e11d;
+border-color: whitesmoke">
+                                    <i class="bi bi-check-lg"></i>
+                                </button>
+                            </a>
+
+                        {% elif order.status == 'ожидание' %}
+                            <a href="{{ url_for('accept_order', order_id=order.id) }}">
+                                <button type="button" class="btn btn-success" aria-label="Close" style="float: right; background: #54e11d;
+border-color: whitesmoke">
+                                    <i class="bi bi-check-lg"></i>
+                                </button>
+                            </a>
+                        {% endif %}
+                        {% if order.status != 'выполнено' and order.status != 'отклонено' %}
+                            <a href="{{ url_for('delete_order', order_id=order.id) }}">
+                                <button type="button" class="btn btn-danger" aria-label="Close" style="float: right; background: #ff2c2c;
+border-color: whitesmoke">
+                                    <i class="bi bi-x-lg"></i>
+                                </button>
+                            </a>
+                        {% endif %}
+                    </li>
+                    {% for i in orders_cart %}
+                        {% if i.order_id == order.id %}
+                            <li class="list-group-item">{{ i.Items.title }} x {{ i.count }}</li>
+                        {% endif %}
+                    {% endfor %}
+
+                </ul>
+            {% endfor %}
+        </div>
+    </div>
+
+{% endblock %}

@@ -1,0 +1,90 @@
+.html-load {
+    height: 100%;
+    position: relative;
+    overflow: hidden;
+}
+
+.loader-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.loader {
+    border: 8px solid #f3f3f3;
+    border-top: 8px solid #3498db;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+body {
+    background: #c8d4ee;
+    font-family: "Montserrat", sans-serif;
+    font-optical-sizing: auto;
+    font-style: normal;
+}
+
+.navbar-brand {
+    color: #d8d8d8;
+    transition: all 0.3s ease;
+    font-size: 27px;
+}
+
+.navbar-brand:hover {
+    color: #f1f1f1;
+    transition: all 0.3s ease;
+}
+
+
+.profile-card {
+    border: 3px solid #007BFF;
+    border-radius: 10px;
+    background-color: #E9ECEF;
+    display: flex;
+    align-items: center;
+    overflow: hidden; /* Скрыть выходящие за границы части изображения */
+}
+
+.profile-photo {
+
+    height: 260px; /* Картинка растягивается по высоте контейнера */
+    width: 250px; /* Ширина определяется автоматически для сохранения пропорций */
+    object-fit: cover; /* Картинка обрезается для заполнения контейнера */
+    color: #A9A9F5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    margin-right: 20px;
+    overflow: hidden;
+    border-radius: 5px 0 0 5px;
+    border-right: 3px solid #007BFF;
+}
+
+.profile-info {
+    color: #A9A9F5;
+    font-size: 18px;
+}
+
+.cont-card{
+    box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.17);
+    transition: .5s;
+        cursor: help;
+}
+
+.cont-card:hover{
+    transform: translateY(-10px);
+    transition: .5s;
+}

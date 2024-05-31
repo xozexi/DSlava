@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+
+{% block title %}Учителя{% endblock %}
+
+{% block content %}
+<h1 class="text-center my-4" style="color: #4f76ff; font-weight: 700">Информация</h1>
+{% if current_user.is_authenticated %}
+{% if current_user.has_role('admin') %}
+{% if type == 'Administration' %}
+<div class="row justify-content-center">
+    <button type="button" class="btn btn-warning" style="width: 200px; height: 45px;"
+            onclick="location.href='/administration/edit/?id={{info.id}}&url=/administration/'">
+        <i class="bi bi-pencil"></i> Изменить</button>
+</div>
+{% elif type == 'Teacher' %}
+<div class="row justify-content-center">
+    <button type="button" class="btn btn-warning" style="width: 200px; height: 45px;"
+            onclick="location.href='/teacher/edit/?id={{info.id}}&url=/teacher/'">
+        <i class="bi bi-pencil"></i> Изменить</button>
+</div>
+{% elif type == 'Workers' %}
+<div class="row justify-content-center">
+    <button type="button" class="btn btn-warning" style="width: 200px; height: 45px;"
+            onclick="location.href='/workers/edit/?id={{info.id}}&url=/workers/'">
+        <i class="bi bi-pencil"></i> Изменить</button>
+</div>
+{% endif %}
+
+{% endif %}
+{% endif %}
+<div class="container mb-4" style="border-radius: 10px; background: #8293cb; border: 3px solid #8783c0;
+box-shadow: 0 0 10px rgba(0,0,0,0.55)">
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    {% for message in messages %}
+
+    <div class="alert alert-danger" role="alert">
+        {{ message }}
+    </div>
+    {% endfor %}
+    {% endif %}
+    {% endwith %}
+    <div class="container mt-5 ">
+        <div class="row">
+            <div class="col-lg-4 col-md-12">
+                <img src="{{ info.img }}" style="width: 300px; border-radius: 10px; border: 3px solid #007BFF;">
+            </div>
+            <div class="col-lg-5 col-md-12">
+                <p class="fs-3" style="color: #dfe4ff; font-weight: 600">ФИО: {{ info.firstName}} {{ info.lastName}} {{
+                    info.midleName}}</p>
+                <p class="fs-3" style="color: #dfe4ff; font-weight: 600">Email: {{ info.email}}</p>
+                <p class="fs-3" style="color: #dfe4ff; font-weight: 600">Телефон: {{ info.phone}}</p>
+                {% if current_user.is_authenticated %}
+                {% if current_user.has_role('admin') %}
+                <p class="fs-3" style="color: #dfe4ff; font-weight: 600">Адрес: {{ info.address}}</p>
+                {% endif %}
+                {% endif %}
+                <p class="fs-3" style="color: #dfe4ff; font-weight: 600">Примечание: {{ info.info }}</p>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                   <p class="fs-3" style="color: #dfe4ff; font-weight: 600">Дата поступления на работу: {{ info.data_start_work }}</p>
+                   <p class="fs-3 text-center" style="color: #dfe4ff; font-weight: 600">Соцсети</p>
+                    <hr>
+                   <p class="fs-3" style="color: #dfe4ff; font-weight: 600"><i class="bi bi-telegram"></i> {{ info.telegram }}</p>
+                   <p class="fs-3" style="color: #dfe4ff; font-weight: 600"><i class="bi bi-instagram"></i> {{ info.inst }}</p>
+                   <p class="fs-3" style="color: #dfe4ff; font-weight: 600">VK {{ info.vk }}</p>
+                   <p class="fs-3" style="color: #dfe4ff; font-weight: 600"><i class="bi bi-tiktok"></i> {{ info.tiktok }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
