@@ -1,0 +1,123 @@
+{% extends "base.html" %}
+
+{% block title %}7 класс{% endblock %}
+
+<style>
+</style>
+{% block content %}
+    <h1 class="text-center my-4" style="color: #4f76ff; font-weight: 700">7 класс</h1>
+    <div class="container mb-4">
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                {% for message in messages %}
+
+                    <div class="alert alert-danger" role="alert">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        <div class="container py-5 px-5" style="background: rgba(150,70,241,0.54); border-radius: 10px">
+            <div id="content" style="height: 100px; border-radius: 10px"></div>
+            <div id="controls">
+                <div class="input-group mt-3">
+                    <span class="input-group-text" id="basic-addon1">Скорость</span>
+                    <input type="number" class="form-control" id="horizontalSpeed" placeholder="0" aria-label="Username"
+                           aria-describedby="basic-addon1" value="2">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <div id="formula">
+                        <h2 class="text-light mt-4">Формула: <span class="badge fs-1"
+                                                                   style="background: rgba(172,100,255,0.54)">
+                            \( v = \frac{s}{t} \)</span>
+                        </h2>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <ul class="list-group">
+                    <li class="list-group-item active text-light fs-3" style="background: rgba(172,100,255,0.54); border-color: whitesmoke" aria-current="true">Переменные</li>
+                    <li class="list-group-item bg-transparent text-light fs-4">\( v \) - Скорость (velocity) — это мера того, насколько быстро объект перемещается в определенном направлении. В данной формуле скорость измеряется как расстояние, пройденное объектом, деленное на время, за которое это расстояние было пройдено. Единицы измерения скорости могут быть метры в секунду (м/с), километры в час (км/ч).</li>
+                    <li class="list-group-item bg-transparent text-light fs-4">\( s \) - Расстояние (distance) — это длина пути, который объект прошел. Это скалярная величина, которая описывает общую длину траектории движения. В данной формуле расстояние измеряется в метрах (м), километрах (км) или других единицах длины.</li>
+                    <li class="list-group-item bg-transparent text-light fs-4">\( t \) - Время (time) — это продолжительность, в течение которой объект перемещался. Время измеряется в секундах (с), минутах (мин), часах (ч) и других единицах времени.</li>
+                </ul>
+            </div>
+        </div>
+
+
+    </div>
+
+    <script>
+        let ball;
+        let gravity = 0;
+        let horizontalSpeedInput;
+
+        function setup() {
+            let content = document.getElementById('content');
+            let canvas = createCanvas(content.offsetWidth, content.offsetHeight);
+            canvas.parent(content);
+            canvas.style('border-radius', '10px');
+
+            horizontalSpeedInput = document.getElementById('horizontalSpeed');
+            let initialHorizontalSpeed = parseFloat(horizontalSpeedInput.value);
+            ball = new Ball(width / 2, 50, initialHorizontalSpeed);
+        }
+
+        function draw() {
+            background(164, 84, 255); // Красный цвет
+
+            let currentHorizontalSpeed = parseFloat(horizontalSpeedInput.value);
+            ball.setHorizontalSpeed(currentHorizontalSpeed);
+
+            ball.applyForce(createVector(0, gravity));
+            ball.update();
+            ball.display();
+        }
+
+        class Ball {
+            constructor(x, y, horizontalSpeed) {
+                this.position = createVector(x, y);
+                this.velocity = createVector(horizontalSpeed, 0);
+                this.acceleration = createVector(0, 0);
+                this.mass = 1;
+                this.horizontalSpeed = horizontalSpeed;
+            }
+
+            setHorizontalSpeed(speed) {
+                this.horizontalSpeed = speed;
+                this.velocity.x = speed;
+            }
+
+            applyForce(force) {
+                let f = p5.Vector.div(force, this.mass);
+                this.acceleration.add(f);
+            }
+
+            update() {
+                this.velocity.add(this.acceleration);
+                this.position.add(this.velocity);
+                this.acceleration.mult(0);
+
+                // Проверка, если мяч вышел за нижний край холста
+                if (this.position.y > height) {
+                    this.position.y = 50;  // Возвращаем мяч в исходное положение по Y
+                    this.velocity.y = 0;  // Сбрасываем скорость
+                }
+
+                // Проверка, если мяч вышел за правый край холста
+                if (this.position.x > width) {
+                    this.position.x = 0;  // Возвращаем мяч на левую сторону
+                }
+            }
+
+            display() {
+                stroke(250);
+                strokeWeight(2);
+                fill(0, 0, 0, 0);
+                ellipse(this.position.x, this.position.y, 48, 48);
+            }
+        }
+    </script>
+{% endblock %}

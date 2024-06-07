@@ -32,8 +32,16 @@ def login_required(f):
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    # return render_template('index.html')
+    return redirect(url_for("class7"))
 
+
+@app.route('/7-class')
+def class7():
+    theme = request.args.get('theme')
+    if theme:
+        return render_template(f'7class/{theme}.html')
+    return render_template('7class.html')
 
 
 @app.route('/signin', methods=['GET', 'POST'])

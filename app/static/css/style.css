@@ -51,3 +51,26 @@ body {
     background: whitesmoke;
     color: #42007e;
 }
+
+.list{
+    border: 3px solid whitesmoke;
+    background: #42007e;
+    color: whitesmoke;
+    font-weight: 700;
+    border-radius: 10px;
+    padding: 0 10px;
+    transition: .5s;
+    box-shadow: 0 0 10px 01px rgba(232, 0, 255, 0.26);
+    user-select: none;
+}
+
+.list:hover{
+    transition: 0.5s;
+    background: #8300ff;
+    transform: translateY(-10px);
+    box-shadow: 0 0 10px 01px rgb(232, 0, 255)
+}
+
+a{
+    text-decoration: none;
+}
