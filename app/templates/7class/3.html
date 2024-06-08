@@ -1,0 +1,114 @@
+{% extends "base.html" %}
+
+{% block title %}7 класс{% endblock %}
+
+<style>
+</style>
+{% block content %}
+    <h1 class="text-center my-4" style="color: #4f76ff; font-weight: 700">Сила тяжести</h1>
+    <div class="container mb-4">
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                {% for message in messages %}
+
+                    <div class="alert alert-danger" role="alert">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        <div class="container py-5 px-5" style="background: rgba(150,70,241,0.54); border-radius: 10px">
+            <div id="content" style="height: 300px; border-radius: 10px"></div>
+            <div id="controls">
+                <div class="input-group mt-3">
+                    <span class="input-group-text" id="basic-addon1">Масса</span>
+                    <input type="number" class="form-control" id="mass" placeholder="0" aria-label="Username"
+                           aria-describedby="basic-addon1" value="0">
+                </div>
+                <div class="input-group mt-3">
+                    <span class="input-group-text" id="basic-addon1">Гравитация</span>
+                    <input type="number" class="form-control" id="gravity" placeholder="0" aria-label="Username"
+                           aria-describedby="basic-addon1" value="9.8">
+                </div>
+                <div class="input-group mt-3">
+                    <span class="input-group-text" id="basic-addon1">Сила тяжести</span>
+                    <input type="text" class="form-control" id="force" placeholder="0" aria-label="Username"
+                           aria-describedby="basic-addon1" value="0" readonly>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <div id="formula">
+                        <h2 class="text-light mt-4">Формула: <span class="badge fs-1"
+                                                                   style="background: rgba(172,100,255,0.54)">
+                            \( F_{тяж} = mg \)</span>
+                        </h2>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <ul class="list-group">
+                    <li class="list-group-item active text-light fs-3" style="background: rgba(172,100,255,0.54); border-color: whitesmoke" aria-current="true">Переменные</li>
+                    <li class="list-group-item bg-transparent text-light fs-4">\( F \) - Сила, действующая на объект в гравитационном поле. Например, на поверхности Земли это сила, которая заставляет объекты падать вниз. Измеряется в Ньютонах (Н), где 1 Ньютон — это сила, необходимая для ускорения массы 1 кг на 1 м/с².
+Единица измерения: Ньютоны (Н).</li>
+                    <li class="list-group-item bg-transparent text-light fs-4">\( m \) - Масса объекта является мерой его инерции, то есть его способности сопротивляться ускорению под действием силы. Масса является скалярной величиной и измеряется в килограммах (кг). Масса объекта остаётся постоянной независимо от его местоположения.</li>
+                    <li class="list-group-item bg-transparent text-light fs-4">\( g \) - Это ускорение, с которым любой объект будет ускоряться при свободном падении, если на него не действуют другие силы, кроме гравитации. На Земле это ускорение имеет среднее значение 9.8 м/с². На других планетах это значение будет другим в зависимости от их массы и радиуса.</li>
+                </ul>
+            </div>
+        </div>
+
+
+    </div>
+
+    <script>
+        let massInput, gravityInput, forceOutput;
+        let mass, gravity, force;
+
+        function setup() {
+            let content = document.getElementById('content');
+            let canvas = createCanvas(content.offsetWidth, content.offsetHeight);
+            canvas.parent(content);
+            canvas.style('border-radius', '10px');
+
+            massInput = document.getElementById('mass');
+            gravityInput = document.getElementById('gravity');
+            forceOutput = document.getElementById('force');
+
+            massInput.addEventListener('input', updateForce);
+            gravityInput.addEventListener('input', updateForce);
+
+            updateForce();
+        }
+
+        function updateForce() {
+            mass = parseFloat(massInput.value);
+            gravity = parseFloat(gravityInput.value);
+            force = mass * gravity;
+
+            forceOutput.value = force.toFixed(2) + " N";
+
+            drawVisualization();
+        }
+
+        function drawVisualization() {
+            background(164, 84, 255);
+
+            let y = map(force, 0, 200, 0, height - 50); // Adjust the scaling as needed
+            let radius = 30;
+
+            // Draw the object
+            fill(0, 0, 0, 0);
+            stroke(250);
+            strokeWeight(2);
+            ellipse(width / 2, y, radius * 2, radius * 2);
+
+            // Draw the force arrow
+            stroke(0);
+            strokeWeight(2);
+            line(width / 2, y + radius, width / 2, height);
+            fill(0);
+            triangle(width / 2 - 5, height - 10, width / 2 + 5, height - 10, width / 2, height);
+        }
+    </script>
+    </script>
+{% endblock %}

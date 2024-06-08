@@ -5,7 +5,7 @@
 <style>
 </style>
 {% block content %}
-    <h1 class="text-center my-4" style="color: #4f76ff; font-weight: 700">Скорость при равномерном движении</h1>
+    <h1 class="text-center my-4" style="color: #4f76ff; font-weight: 700">Сила тяжести</h1>
     <div class="container mb-4">
         {% with messages = get_flashed_messages() %}
             {% if messages %}
@@ -18,12 +18,17 @@
             {% endif %}
         {% endwith %}
         <div class="container py-5 px-5" style="background: rgba(150,70,241,0.54); border-radius: 10px">
-            <div id="content" style="height: 100px; border-radius: 10px"></div>
+            <div id="content" style="height: 300px; border-radius: 10px"></div>
             <div id="controls">
+                <div class="input-group mt-3">
+                    <span class="input-group-text" id="basic-addon1">Гравитация</span>
+                    <input type="number" class="form-control" id="gravity" placeholder="0" aria-label="Username"
+                           aria-describedby="basic-addon1" value="9.8" step="0.1">
+                </div>
                 <div class="input-group mt-3">
                     <span class="input-group-text" id="basic-addon1">Скорость</span>
                     <input type="number" class="form-control" id="horizontalSpeed" placeholder="0" aria-label="Username"
-                           aria-describedby="basic-addon1" value="2">
+                           aria-describedby="basic-addon1" value="0">
                 </div>
             </div>
             <div class="row">
@@ -31,7 +36,7 @@
                     <div id="formula">
                         <h2 class="text-light mt-4">Формула: <span class="badge fs-1"
                                                                    style="background: rgba(172,100,255,0.54)">
-                            \( v = \frac{s}{t} \)</span>
+                            \( F_{тяж} = mg \)</span>
                         </h2>
                     </div>
                 </div>
@@ -51,8 +56,7 @@
 
     <script>
         let ball;
-        let gravity = 0;
-        let horizontalSpeedInput;
+        let horizontalSpeedInput, gravityInput;
 
         function setup() {
             let content = document.getElementById('content');
@@ -61,33 +65,62 @@
             canvas.style('border-radius', '10px');
 
             horizontalSpeedInput = document.getElementById('horizontalSpeed');
+            gravityInput = document.getElementById('gravity');
+
             let initialHorizontalSpeed = parseFloat(horizontalSpeedInput.value);
-            ball = new Ball(width / 2, 50, initialHorizontalSpeed);
+            let initialGravity = parseFloat(gravityInput.value);
+            ball = new Ball(width / 2, 50, initialHorizontalSpeed, initialGravity);
         }
 
         function draw() {
             background(164, 84, 255); // Красный цвет
 
             let currentHorizontalSpeed = parseFloat(horizontalSpeedInput.value);
+            let currentGravity = 9.8;
             ball.setHorizontalSpeed(currentHorizontalSpeed);
+            ball.setGravity(currentGravity);
 
-            ball.applyForce(createVector(0, gravity));
+            ball.applyForce(createVector(0, currentGravity * ball.mass));
             ball.update();
             ball.display();
+
+            // Display forces
+            drawForceVectors(ball);
+        }
+
+        function drawForceVectors(ball) {
+            stroke(255, 0, 0);
+            strokeWeight(2);
+            // Draw gravity force vector
+            line(ball.position.x, ball.position.y, ball.position.x, ball.position.y + ball.gravity * 10);
+
+            stroke(0, 0, 255);
+            // Draw horizontal force vector
+            line(ball.position.x, ball.position.y, ball.position.x + ball.velocity.x * 10, ball.position.y);
+
+            stroke(0, 255, 0);
+            // Draw resultant force vector
+            let resultantForce = p5.Vector.add(createVector(ball.velocity.x, ball.gravity), createVector(0, currentGravity * ball.mass));
+            line(ball.position.x, ball.position.y, ball.position.x + resultantForce.x * 10, ball.position.y + resultantForce.y * 10);
         }
 
         class Ball {
-            constructor(x, y, horizontalSpeed) {
+            constructor(x, y, horizontalSpeed, gravity) {
                 this.position = createVector(x, y);
                 this.velocity = createVector(horizontalSpeed, 0);
                 this.acceleration = createVector(0, 0);
                 this.mass = 1;
                 this.horizontalSpeed = horizontalSpeed;
+                this.gravity = gravity;
             }
 
             setHorizontalSpeed(speed) {
                 this.horizontalSpeed = speed;
                 this.velocity.x = speed;
+            }
+
+            setGravity(gravity) {
+                this.gravity = gravity;
             }
 
             applyForce(force) {
@@ -119,5 +152,6 @@
                 ellipse(this.position.x, this.position.y, 48, 48);
             }
         }
+    </script>
     </script>
 {% endblock %}
