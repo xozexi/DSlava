@@ -1,0 +1,102 @@
+{% extends "base.html" %}
+
+{% block title %}8 класс{% endblock %}
+
+<style>
+</style>
+{% block content %}
+    <h1 class="text-center my-4" style="color: #4f76ff; font-weight: 700">Количество тепла, выделяемого при охлаждении (нагревании)</h1>
+    <div class="container mb-4">
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                {% for message in messages %}
+
+                    <div class="alert alert-danger" role="alert">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        <div class="container py-5 px-5" style="background: rgba(150,70,241,0.54); border-radius: 10px">
+            <div id="content" style="height: 400px; border-radius: 10px"></div>
+            <div id="controls">
+                <div class="input-group mt-3">
+                    <span class="input-group-text" id="basic-addon1">Масса</span>
+                    <input type="number" class="form-control" id="mass" placeholder="0" aria-label="Username"
+                           aria-describedby="basic-addon1" value="2">
+                </div>
+                <div class="input-group mt-3">
+                    <span class="input-group-text" id="basic-addon1">Текущая температура</span>
+                    <input type="number" class="form-control" id="specificHeat" placeholder="0" aria-label="Username"
+                           aria-describedby="basic-addon1" value="2">
+                </div>
+                <div class="input-group mt-3">
+                    <span class="input-group-text" id="basic-addon1">Изменение температуры</span>
+                    <input type="number" class="form-control" id="tempChange" placeholder="0" aria-label="Username"
+                           aria-describedby="basic-addon1" value="2">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <div id="formula">
+                        <h2 class="text-light mt-4">Формула: <span class="badge fs-1"
+                                                                   style="background: rgba(172,100,255,0.54)">
+                            \( Q = c \cdot m (t_2 - t_1) \)</span>
+                        </h2>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <ul class="list-group">
+                    <li class="list-group-item active text-light fs-3" style="background: rgba(172,100,255,0.54); border-color: whitesmoke" aria-current="true">Переменные</li>
+                    <li class="list-group-item bg-transparent text-light fs-4">\( Q \) - Количество тепла, выделяемого или поглощаемого телом, измеряется в джоулях (Дж). Это та энергия, которая либо добавляется к телу для его нагрева, либо забирается у тела при охлаждении.</li>
+                    <li class="list-group-item bg-transparent text-light fs-4">\( с \) - Удельная теплоёмкость вещества, измеряется в джоулях на килограмм на градус Цельсия (Дж/(кг·°C)). Это количество тепла, необходимое для нагрева одного килограмма вещества на один градус Цельсия.</li>
+                    <li class="list-group-item bg-transparent text-light fs-4">\( m \) - Масса тела, измеряется в килограммах (кг). Это количество вещества, из которого состоит тело.</li>
+                    <li class="list-group-item bg-transparent text-light fs-4">\( t_{1} \) - Конечная температура, измеряется в градусах Цельсия (°C). Это температура тела после нагрева или охлаждения.</li>
+                    <li class="list-group-item bg-transparent text-light fs-4">\( t_{2} \) - Начальная температура, измеряется в градусах Цельсия (°C). Это температура тела до начала нагрева или охлаждения.</li>
+                </ul>
+            </div>
+        </div>
+
+
+    </div>
+
+    <script>
+        function setup() {
+            let content = document.getElementById('content');
+            let canvas = createCanvas(content.offsetWidth, content.offsetHeight);
+            canvas.parent(content);
+            canvas.style.borderRadius = '10px';
+        }
+
+        function draw() {
+            background(164, 84, 255); // Background color
+
+            let mass = parseFloat(document.getElementById('mass').value);
+            let specificHeat = parseFloat(document.getElementById('specificHeat').value);
+            let tempChange = parseFloat(document.getElementById('tempChange').value);
+
+            let heat = mass * specificHeat * tempChange;
+
+            // Display heat calculation formula and variables
+            textSize(24);
+            fill(255);
+            text(`Q = cmΔT`, 50, 50);
+            textSize(18);
+            text(`Масса (m): ${mass} kg`, 50, 100);
+            text(`Удельная теплоемкость (c): ${specificHeat} J/kg°C`, 50, 130);
+            text(`Измененеие температуры (ΔT): ${tempChange} °C`, 50, 160);
+            text(`Концентрация тепла (Q): ${heat.toFixed(2)} J`, 50, 200);
+
+            // Map temperature change to color
+            let colorValue = map(tempChange, -50, 50, 0, 255); // Adjust the range as needed
+            colorValue = constrain(colorValue, 0, 255);
+            fill(colorValue, 0, 255 - colorValue);
+
+            // Draw the square
+            let squareSize = 100;
+            rectMode(CENTER);
+            rect(width / 2, height / 2, squareSize, squareSize);
+        }
+    </script>
+{% endblock %}

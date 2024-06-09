@@ -1,0 +1,95 @@
+{% extends "base.html" %}
+
+{% block title %}8 класс{% endblock %}
+
+<style>
+</style>
+{% block content %}
+    <h1 class="text-center my-4" style="color: #4f76ff; font-weight: 700">Количество теплоты при сгорании тела</h1>
+    <div class="container mb-4">
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                {% for message in messages %}
+
+                    <div class="alert alert-danger" role="alert">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        <div class="container py-5 px-5" style="background: rgba(150,70,241,0.54); border-radius: 10px">
+            <div id="content" style="height: 400px; border-radius: 10px"></div>
+            <div id="controls">
+                <div class="input-group mt-3">
+                    <span class="input-group-text" id="basic-addon1">Масса</span>
+                    <input type="number" class="form-control" id="mass" placeholder="0" aria-label="Username"
+                           aria-describedby="basic-addon1" value="2">
+                </div>
+                <div class="input-group mt-3">
+                    <span class="input-group-text" id="basic-addon1">Удельная теплота сгорания</span>
+                    <input type="number" class="form-control" id="heat" placeholder="0" aria-label="Username"
+                           aria-describedby="basic-addon1" value="2">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <div id="formula">
+                        <h2 class="text-light mt-4">Формула: <span class="badge fs-1"
+                                                                   style="background: rgba(172,100,255,0.54)">
+                            \( Q = c \cdot m (t_2 - t_1) \)</span>
+                        </h2>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <ul class="list-group">
+                    <li class="list-group-item active text-light fs-3" style="background: rgba(172,100,255,0.54); border-color: whitesmoke" aria-current="true">Переменные</li>
+                    <li class="list-group-item bg-transparent text-light fs-4">\( Q \) - Количество тепла, выделяемого или поглощаемого телом, измеряется в джоулях (Дж). Это та энергия, которая либо добавляется к телу для его нагрева, либо забирается у тела при охлаждении.</li>
+                    <li class="list-group-item bg-transparent text-light fs-4">\( с \) - Удельная теплоёмкость вещества, измеряется в джоулях на килограмм на градус Цельсия (Дж/(кг·°C)). Это количество тепла, необходимое для нагрева одного килограмма вещества на один градус Цельсия.</li>
+                    <li class="list-group-item bg-transparent text-light fs-4">\( m \) - Масса тела, измеряется в килограммах (кг). Это количество вещества, из которого состоит тело.</li>
+                    <li class="list-group-item bg-transparent text-light fs-4">\( t_{1} \) - Конечная температура, измеряется в градусах Цельсия (°C). Это температура тела после нагрева или охлаждения.</li>
+                    <li class="list-group-item bg-transparent text-light fs-4">\( t_{2} \) - Начальная температура, измеряется в градусах Цельсия (°C). Это температура тела до начала нагрева или охлаждения.</li>
+                </ul>
+            </div>
+        </div>
+
+
+    </div>
+
+    <script>
+        let heatInput, massInput;
+
+        function setup() {
+            let content = document.getElementById('content');
+            let canvas = createCanvas(content.offsetWidth, content.offsetHeight);
+            canvas.parent(content);
+
+            heatInput = document.getElementById('heat');
+            massInput = document.getElementById('mass');
+        }
+
+        function draw() {
+            background(0,0,0,0);
+
+            let q = parseFloat(heatInput.value);
+            let m = parseFloat(massInput.value);
+            let Q = q * m;
+
+            textSize(24);
+            fill(0);
+            text(`Q = q * m`, 50, 50);
+            textSize(18);
+            text(`Удельная теплота сгорания (q): ${q} Дж/кг`, 50, 100);
+            text(`Масса тела (m): ${m} кг`, 50, 130);
+            text(`Количество теплоты (Q): ${Q.toFixed(2)} Дж`, 50, 160);
+
+            // Визуализация количества теплоты
+            let barWidth = 50;
+            let maxBarHeight = height - 200;
+            let barHeight = map(Q, 0, q * 10, 0, maxBarHeight); // Максимальная масса 10 кг для визуализации
+
+            fill(255, 0, 0);
+            rect(width / 2, height - 100, barWidth, -barHeight);
+        }
+    </script>
+{% endblock %}
