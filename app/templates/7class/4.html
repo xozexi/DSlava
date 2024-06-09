@@ -5,7 +5,7 @@
 <style>
 </style>
 {% block content %}
-    <h1 class="text-center my-4" style="color: #4f76ff; font-weight: 700">Сила тяжести</h1>
+    <h1 class="text-center my-4" style="color: #4f76ff; font-weight: 700">Равнодействующая сила</h1>
     <div class="container mb-4">
         {% with messages = get_flashed_messages() %}
             {% if messages %}
@@ -23,7 +23,7 @@
                 <div class="input-group mt-3">
                     <span class="input-group-text" id="basic-addon1">Гравитация</span>
                     <input type="number" class="form-control" id="gravity" placeholder="0" aria-label="Username"
-                           aria-describedby="basic-addon1" value="9.8" step="0.1">
+                           aria-describedby="basic-addon1" value="0.3" step="0.1" oninput="setGravity()">
                 </div>
                 <div class="input-group mt-3">
                     <span class="input-group-text" id="basic-addon1">Скорость</span>
@@ -34,9 +34,19 @@
             <div class="row">
                 <div class="col-12">
                     <div id="formula">
-                        <h2 class="text-light mt-4">Формула: <span class="badge fs-1"
+                        <h2 class="text-light mt-4">Формула сил направленных в одну сторону: <span class="badge fs-1"
                                                                    style="background: rgba(172,100,255,0.54)">
-                            \( F_{тяж} = mg \)</span>
+                            \( R = F_{1} + F_{2} \)</span>
+                        </h2>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <div id="formula">
+                        <h2 class="text-light mt-4">Формула сил направленных в противоположные стороны: <span class="badge fs-1"
+                                                                   style="background: rgba(172,100,255,0.54)">
+                            \( R = F_{1} - F_{2} \)</span>
                         </h2>
                     </div>
                 </div>
@@ -44,9 +54,8 @@
             <div class="row">
                 <ul class="list-group">
                     <li class="list-group-item active text-light fs-3" style="background: rgba(172,100,255,0.54); border-color: whitesmoke" aria-current="true">Переменные</li>
-                    <li class="list-group-item bg-transparent text-light fs-4">\( v \) - Скорость (velocity) — это мера того, насколько быстро объект перемещается в определенном направлении. В данной формуле скорость измеряется как расстояние, пройденное объектом, деленное на время, за которое это расстояние было пройдено. Единицы измерения скорости могут быть метры в секунду (м/с), километры в час (км/ч).</li>
-                    <li class="list-group-item bg-transparent text-light fs-4">\( s \) - Расстояние (distance) — это длина пути, который объект прошел. Это скалярная величина, которая описывает общую длину траектории движения. В данной формуле расстояние измеряется в метрах (м), километрах (км) или других единицах длины.</li>
-                    <li class="list-group-item bg-transparent text-light fs-4">\( t \) - Время (time) — это продолжительность, в течение которой объект перемещался. Время измеряется в секундах (с), минутах (мин), часах (ч) и других единицах времени.</li>
+                    <li class="list-group-item bg-transparent text-light fs-4">\( R \) - Это векторная сумма всех сил, приложенных к объекту. Она определяет общее направление и величину ускорения объекта. Если равнодействующая сила не равна нулю, объект будет ускоряться в направлении этой силы</li>
+                    <li class="list-group-item bg-transparent text-light fs-4">\( F \) - Это одна из множества сил, которые могут действовать на объект. Примером может быть сила тяжести, тянущая объект вниз.</li>
                 </ul>
             </div>
         </div>
@@ -57,6 +66,11 @@
     <script>
         let ball;
         let horizontalSpeedInput, gravityInput;
+        let currentGravity = 0.3;
+
+        function setGravity(){
+            currentGravity = parseFloat(gravityInput.value);
+        }
 
         function setup() {
             let content = document.getElementById('content');
@@ -66,6 +80,8 @@
 
             horizontalSpeedInput = document.getElementById('horizontalSpeed');
             gravityInput = document.getElementById('gravity');
+            currentGravity = parseFloat(gravityInput.value);
+
 
             let initialHorizontalSpeed = parseFloat(horizontalSpeedInput.value);
             let initialGravity = parseFloat(gravityInput.value);
@@ -76,7 +92,6 @@
             background(164, 84, 255); // Красный цвет
 
             let currentHorizontalSpeed = parseFloat(horizontalSpeedInput.value);
-            let currentGravity = 9.8;
             ball.setHorizontalSpeed(currentHorizontalSpeed);
             ball.setGravity(currentGravity);
 
@@ -134,7 +149,7 @@
                 this.acceleration.mult(0);
 
                 // Проверка, если мяч вышел за нижний край холста
-                if (this.position.y > height) {
+                if (this.position.y > height || this.position.y < 0) {
                     this.position.y = 50;  // Возвращаем мяч в исходное положение по Y
                     this.velocity.y = 0;  // Сбрасываем скорость
                 }
@@ -142,6 +157,10 @@
                 // Проверка, если мяч вышел за правый край холста
                 if (this.position.x > width) {
                     this.position.x = 0;  // Возвращаем мяч на левую сторону
+                }
+
+                if (this.position.x < 0) {
+                    this.position.x = width;
                 }
             }
 

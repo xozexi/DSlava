@@ -1,0 +1,136 @@
+{% extends "base.html" %}
+
+{% block title %}7 класс{% endblock %}
+
+<style>
+</style>
+{% block content %}
+    <h1 class="text-center my-4" style="color: #4f76ff; font-weight: 700">Вес тела</h1>
+    <div class="container mb-4">
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                {% for message in messages %}
+
+                    <div class="alert alert-danger" role="alert">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        <div class="container py-5 px-5" style="background: rgba(150,70,241,0.54); border-radius: 10px">
+            <div id="content" style="height: 300px; border-radius: 10px"></div>
+            <div id="controls">
+                <div class="input-group mt-3">
+                    <span class="input-group-text" id="basic-addon1">Масса</span>
+                    <input type="number" class="form-control" id="mass" placeholder="0" aria-label="Username"
+                           aria-describedby="basic-addon1" value="0.5" step="0.1" oninput="setMass()">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <div id="formula">
+                        <h2 class="text-light mt-4">Вес тела: <span class="badge fs-1"
+                                                                   style="background: rgba(172,100,255,0.54)">
+                            \( P = g + m \)</span>
+                        </h2>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <ul class="list-group">
+                    <li class="list-group-item active text-light fs-3" style="background: rgba(172,100,255,0.54); border-color: whitesmoke" aria-current="true">Переменные</li>
+                    <li class="list-group-item bg-transparent text-light fs-4">\( P \) - Это сила, с которой тело притягивается к Земле. На Земле вес пропорционален массе тела, умноженной на ускорение свободного падения.</li>
+                    <li class="list-group-item bg-transparent text-light fs-4">\( g \) - Ускорение, с которым тело падает в вакууме под действием силы тяжести. На поверхности Земли
+\( g \)
+g примерно равно 9.8 м/с², но на других планетах это значение будет другим.</li>
+                    <li class="list-group-item bg-transparent text-light fs-4">\( m \) - Масса — это мера инерции тела, его способность сопротивляться ускорению. Масса остаётся постоянной, независимо от местоположения тела.</li>
+                </ul>
+            </div>
+        </div>
+
+
+    </div>
+
+    <script>
+        let cube;
+        let massI;
+        let massInput, gravityInput;
+
+        function setup() {
+            let content = document.getElementById('content');
+            let canvas = createCanvas(content.offsetWidth, content.offsetHeight);
+            canvas.parent(content);
+            canvas.style.borderRadius = '10px';
+
+            massInput = document.getElementById('mass');
+
+            let initialMass = parseFloat(massInput.value);
+            cube = new Cube(width / 2, 50, initialMass, 0.1);
+        }
+
+
+
+        function draw() {
+            background(164, 84, 255); // Background color
+
+            let currentMass = parseFloat(massInput.value);
+            let currentGravity = parseFloat(document.getElementById('mass').value);
+            cube.setMass(currentMass);
+            cube.setGravity(currentGravity);
+
+            cube.applyForce(createVector(0, currentGravity * cube.mass));
+            cube.update();
+            cube.display();
+        }
+
+        class Cube {
+            constructor(x, y, mass, gravity) {
+                this.position = createVector(x, y);
+                this.velocity = createVector(0, 0);
+                this.acceleration = createVector(0, 0);
+                this.mass = mass;
+                this.gravity = gravity;
+                this.size = 50;
+            }
+
+            setMass(mass) {
+                this.mass = mass;
+            }
+
+            setGravity(gravity) {
+                this.gravity = gravity;
+            }
+
+            applyForce(force) {
+                let f = p5.Vector.div(force, this.mass);
+                this.acceleration.add(f);
+            }
+
+            update() {
+                this.velocity.add(this.acceleration);
+                this.position.add(this.velocity);
+                this.acceleration.mult(0);
+
+                // Check if the cube goes below the bottom of the canvas
+                if (this.position.y + this.size / 2 > height) {
+                    this.position.y = height - this.size / 2;
+                    this.velocity.y = 0;
+                }
+            }
+
+            display() {
+                stroke(250);
+                strokeWeight(2);
+                fill(0,0,0,0);
+                rectMode(CENTER);
+                rect(this.position.x, this.position.y, this.size, this.size);
+            }
+        }
+
+        function setMass(){
+            cube.mass = document.getElementById('mass').value;
+            cube.size = document.getElementById('mass').value*100;
+            cube.position.y = 50;
+        }
+    </script>
+{% endblock %}
