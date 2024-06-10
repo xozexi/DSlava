@@ -1,0 +1,95 @@
+{% extends "base.html" %}
+
+{% block title %}8 класс{% endblock %}
+
+<style>
+</style>
+{% block content %}
+    <h1 class="text-center my-4" style="color: #4f76ff; font-weight: 700">Количество теплоты плавления (кристаллизации)</h1>
+    <div class="container mb-4">
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                {% for message in messages %}
+
+                    <div class="alert alert-danger" role="alert">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        <div class="container py-5 px-5" style="background: rgba(150,70,241,0.54); border-radius: 10px">
+            <div id="content" style="height: 400px; border-radius: 10px"></div>
+            <div id="controls">
+                <div class="input-group mt-3">
+                    <span class="input-group-text" id="basic-addon1">Масса</span>
+                    <input type="number" class="form-control" id="mass" placeholder="0" aria-label="Username"
+                           aria-describedby="basic-addon1" value="2">
+                </div>
+                <div class="input-group mt-3">
+                    <span class="input-group-text" id="basic-addon1">Удельная теплота плавления (λ, Дж/кг)</span>
+                    <input type="number" class="form-control" id="specificHeat" placeholder="0" aria-label="Username"
+                           aria-describedby="basic-addon1" value="334000" step="1500">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <div id="formula">
+                        <h2 class="text-light mt-4">Формула: <span class="badge fs-1"
+                                                                   style="background: rgba(172,100,255,0.54)">
+                            \( Q = \lambda \cdot m \)</span>
+                        </h2>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <ul class="list-group">
+                    <li class="list-group-item active text-light fs-3" style="background: rgba(172,100,255,0.54); border-color: whitesmoke" aria-current="true">Переменные</li>
+                    <li class="list-group-item bg-transparent text-light fs-4">\( Q \) - Количество теплоты, выделяемое или поглощаемое при плавлении (или кристаллизации) тела. Измеряется в джоулях (Дж). Это общая энергия, необходимая для плавления (или кристаллизации) определенной массы вещества.</li>
+                    <li class="list-group-item bg-transparent text-light fs-4">\( \lambda \) - Удельная теплота плавления вещества, измеряется в джоулях на килограмм (Дж/кг). Это количество тепла, необходимое для плавления одного килограмма вещества без изменения температуры.</li>
+                    <li class="list-group-item bg-transparent text-light fs-4">\( m \) - Масса тела, измеряется в килограммах (кг). Это количество вещества, которое плавится (или кристаллизуется).</li>
+                </ul>
+            </div>
+        </div>
+
+
+    </div>
+
+    <script>
+        function setup() {
+            let content = document.getElementById('content');
+            let canvas = createCanvas(content.offsetWidth, content.offsetHeight);
+
+            canvas.parent(content);
+            canvas.style('border-radius', '10px');
+        }
+
+        function draw() {
+            background(164, 84, 255); // Background color
+
+            let mass = parseFloat(document.getElementById('mass').value);
+            let specificHeat = parseFloat(document.getElementById('specificHeat').value);
+
+            let heat = specificHeat * mass;
+
+            // Display heat calculation formula and variables
+            textSize(24);
+            fill(255);
+            text(`Q = λm`, 50, 50);
+            textSize(18);
+            text(`Масса (m): ${mass} kg`, 50, 100);
+            text(`Удельная теплота плавления (λ): ${specificHeat} J/kg`, 50, 130);
+            text(`Количество теплоты (Q): ${heat.toFixed(2)} J`, 50, 160);
+
+            // Map heat to color
+            let colorValue = map(heat, 0, 1000000, 0, 255); // Adjust the range as needed
+            colorValue = constrain(colorValue, 0, 255);
+            fill(colorValue, 0, 255 - colorValue);
+
+            // Draw the square
+            let squareSize = 100;
+            rectMode(CENTER);
+            rect(width / 2, height / 2, squareSize, squareSize);
+            stroke(255);
+        }
+    </script>
+{% endblock %}

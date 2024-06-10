@@ -65,8 +65,9 @@
         function setup() {
             let content = document.getElementById('content');
             let canvas = createCanvas(content.offsetWidth, content.offsetHeight);
+
             canvas.parent(content);
-            canvas.style.borderRadius = '10px';
+            canvas.style('border-radius', '10px');
         }
 
         function draw() {
@@ -97,6 +98,7 @@
             let squareSize = 100;
             rectMode(CENTER);
             rect(width / 2, height / 2, squareSize, squareSize);
+            stroke(255)
         }
     </script>
 {% endblock %}

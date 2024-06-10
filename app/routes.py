@@ -51,6 +51,15 @@ def class8():
         return render_template(f'8class/{theme}.html')
     return render_template('8class.html')
 
+
+@app.route('/9-class')
+def class9():
+    theme = request.args.get('theme')
+    if theme:
+        return render_template(f'9class/{theme}.html')
+    return render_template('9class.html')
+
+
 @app.route('/signin', methods=['GET', 'POST'])
 def signin():
     if request.method == 'POST':

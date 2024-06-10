@@ -36,7 +36,7 @@
                     <div id="formula">
                         <h2 class="text-light mt-4">Формула: <span class="badge fs-1"
                                                                    style="background: rgba(172,100,255,0.54)">
-                            \( Q = c \cdot m (t_2 - t_1) \)</span>
+                            \( Q = qm \)</span>
                         </h2>
                     </div>
                 </div>
@@ -44,11 +44,9 @@
             <div class="row">
                 <ul class="list-group">
                     <li class="list-group-item active text-light fs-3" style="background: rgba(172,100,255,0.54); border-color: whitesmoke" aria-current="true">Переменные</li>
-                    <li class="list-group-item bg-transparent text-light fs-4">\( Q \) - Количество тепла, выделяемого или поглощаемого телом, измеряется в джоулях (Дж). Это та энергия, которая либо добавляется к телу для его нагрева, либо забирается у тела при охлаждении.</li>
-                    <li class="list-group-item bg-transparent text-light fs-4">\( с \) - Удельная теплоёмкость вещества, измеряется в джоулях на килограмм на градус Цельсия (Дж/(кг·°C)). Это количество тепла, необходимое для нагрева одного килограмма вещества на один градус Цельсия.</li>
-                    <li class="list-group-item bg-transparent text-light fs-4">\( m \) - Масса тела, измеряется в килограммах (кг). Это количество вещества, из которого состоит тело.</li>
-                    <li class="list-group-item bg-transparent text-light fs-4">\( t_{1} \) - Конечная температура, измеряется в градусах Цельсия (°C). Это температура тела после нагрева или охлаждения.</li>
-                    <li class="list-group-item bg-transparent text-light fs-4">\( t_{2} \) - Начальная температура, измеряется в градусах Цельсия (°C). Это температура тела до начала нагрева или охлаждения.</li>
+                    <li class="list-group-item bg-transparent text-light fs-4">\( Q \) - Количество теплоты, выделяемое при сгорании тела, измеряется в джоулях (Дж). Это общая энергия, выделяемая при полном сгорании вещества.</li>
+                    <li class="list-group-item bg-transparent text-light fs-4">\( q \) - Удельная теплота сгорания вещества, измеряется в джоулях на килограмм (Дж/кг). Это количество тепла, выделяемое при полном сгорании одного килограмма вещества.</li>
+                    <li class="list-group-item bg-transparent text-light fs-4">\( m \) - Масса тела, измеряется в килограммах (кг). Это количество вещества, которое сгорает.</li>
                 </ul>
             </div>
         </div>
@@ -63,20 +61,21 @@
             let content = document.getElementById('content');
             let canvas = createCanvas(content.offsetWidth, content.offsetHeight);
             canvas.parent(content);
+            canvas.style('border-radius', '10px');
 
             heatInput = document.getElementById('heat');
             massInput = document.getElementById('mass');
         }
 
         function draw() {
-            background(0,0,0,0);
+            background(164, 84, 255); // Background color
 
             let q = parseFloat(heatInput.value);
             let m = parseFloat(massInput.value);
             let Q = q * m;
 
             textSize(24);
-            fill(0);
+            fill(255);
             text(`Q = q * m`, 50, 50);
             textSize(18);
             text(`Удельная теплота сгорания (q): ${q} Дж/кг`, 50, 100);
@@ -88,8 +87,9 @@
             let maxBarHeight = height - 200;
             let barHeight = map(Q, 0, q * 10, 0, maxBarHeight); // Максимальная масса 10 кг для визуализации
 
-            fill(255, 0, 0);
+            fill(0,0, 0, 0);
             rect(width / 2, height - 100, barWidth, -barHeight);
+            stroke(255)
         }
     </script>
 {% endblock %}

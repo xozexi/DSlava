@@ -1,0 +1,130 @@
+{% extends "base.html" %}
+
+{% block title %}8 класс{% endblock %}
+
+<style>
+</style>
+{% block content %}
+    <h1 class="text-center my-4" style="color: #4f76ff; font-weight: 700">Электрическое напряжение</h1>
+    <div class="container mb-4">
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                {% for message in messages %}
+
+                    <div class="alert alert-danger" role="alert">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        <div class="container py-5 px-5" style="background: rgba(150,70,241,0.54); border-radius: 10px">
+            <div id="content" style="height: 400px; border-radius: 10px"></div>
+            <div id="controls">
+                <div class="input-group mt-3">
+                    <span class="input-group-text" id="basic-addon1">Ток (A)</span>
+                    <input type="number" class="form-control" id="current" placeholder="0" aria-label="Username"
+                           aria-describedby="basic-addon1" value="1" step="0.1">
+                </div>
+                <div class="input-group mt-3">
+                    <span class="input-group-text" id="basic-addon1">Заряд (q)</span>
+                    <input type="number" class="form-control" id="charge" placeholder="0" aria-label="Username"
+                           aria-describedby="basic-addon1" value="1" step="0.1">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <div id="formula">
+                        <h2 class="text-light mt-4">Формула: <span class="badge fs-1"
+                                                                   style="background: rgba(172,100,255,0.54)">
+                            \( U = \frac{A}{q} \)</span>
+                        </h2>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <ul class="list-group">
+                    <li class="list-group-item active text-light fs-3" style="background: rgba(172,100,255,0.54); border-color: whitesmoke" aria-current="true">Переменные</li>
+                    <li class="list-group-item bg-transparent text-light fs-4">\( A \) - Это переменная, представляющая собой значение электрического тока в цепи. Единица измерения тока - ампер (𝐴)</li>
+                    <li class="list-group-item bg-transparent text-light fs-4">\( q \) - Это переменная, представляющая собой значение электрического заряда, проходящего через секцию цепи за определенное время. Единица измерения заряда - кулон (𝐶)</li>
+                    <li class="list-group-item bg-transparent text-light fs-4">\( U \) - Это переменная, которая представляет собой электрическое напряжение, измеряемое между двумя точками цепи. В данном случае, оно рассчитывается как отношение тока к заряду. Единица измерения напряжения - вольт (𝑉)</li>
+                </ul>
+            </div>
+        </div>
+
+
+    </div>
+
+    <script>
+        function setup() {
+            let content = document.getElementById('content');
+            let canvas = createCanvas(content.offsetWidth, content.offsetHeight);
+            canvas.parent(content);
+            canvas.style('border-radius', '10px');
+            angleMode(DEGREES);
+        }
+
+        function draw() {
+            background(164, 84, 255);
+
+            let current = parseFloat(document.getElementById('current').value);
+            let charge = parseFloat(document.getElementById('charge').value);
+
+            let voltage = 0;
+            if (charge !== 0) {
+                voltage = current / charge;
+            }
+
+            // Display voltage calculation formula and variables
+            textSize(24);
+            fill(255);
+            text(`U = A / q`, 100, 50);
+            textSize(18);
+            text(`Ток (A): ${current} A`, 100, 100);
+            text(`Заряд (q): ${charge} C`, 100, 130);
+            text(`Напряжение (U): ${voltage.toFixed(2)} V`, 100, 160);
+
+            // Draw the voltmeter
+            drawVoltmeter(voltage);
+        }
+
+        function drawVoltmeter(voltage) {
+            translate(width / 2, height / 2);
+
+            // Draw the outer circle
+            stroke(255);
+            strokeWeight(4);
+            noFill();
+            ellipse(0, 0, 300, 300);
+
+            // Draw the ticks
+            for (let angle = -90; angle <= 90; angle += 10) {
+                let x1 = cos(angle) * 140;
+                let y1 = sin(angle) * 140;
+                let x2 = cos(angle) * 150;
+                let y2 = sin(angle) * 150;
+                strokeWeight(2);
+                line(x1, y1, x2, y2);
+
+                // Draw numbers
+                let xText = cos(angle) * 180;
+                let yText = sin(angle) * 180;
+                noStroke();
+                fill(255);
+                textSize(16);
+                textAlign(CENTER, CENTER);
+                text(Math.round((angle + 90) / 18 * 2)/2, xText, yText);
+            }
+
+            // Draw the needle
+            let needleAngle = map(voltage, 0, 10, -90, 90); // Adjust the range as needed
+            stroke(255, 0, 0);
+            strokeWeight(4);
+            line(0, 0, cos(needleAngle) * 140, sin(needleAngle) * 140);
+
+            // Draw the center of the needle
+            fill(255, 0, 0);
+            noStroke();
+            ellipse(0, 0, 10, 10);
+        }
+    </script>
+{% endblock %}

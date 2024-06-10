@@ -1,0 +1,125 @@
+{% extends "base.html" %}
+
+{% block title %}9 класс{% endblock %}
+
+<style>
+</style>
+{% block content %}
+    <h1 class="text-center my-4" style="color: #4f76ff; font-weight: 700">Проекция вектора перемещения</h1>
+    <div class="container mb-4">
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                {% for message in messages %}
+
+                    <div class="alert alert-danger" role="alert">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        <div class="container py-5 px-5" style="background: rgba(150,70,241,0.54); border-radius: 10px">
+            <div id="content" style="height: 400px; border-radius: 10px"></div>
+            <div id="controls">
+                <div class="input-group mt-3">
+                    <span class="input-group-text" id="basic-addon1">Начальная координата \( x_0 \)</span>
+                    <input type="number" class="form-control" id="x0" placeholder="0" aria-label="Username"
+                           aria-describedby="basic-addon1" value="100">
+                </div>
+                <div class="input-group mt-3">
+                    <span class="input-group-text" id="basic-addon1">Начальная координата \( y_0 \)</span>
+                    <input type="number" class="form-control" id="y0" placeholder="0" aria-label="Username"
+                           aria-describedby="basic-addon1" value="100">
+                </div>
+                <div class="input-group mt-3">
+                    <span class="input-group-text" id="basic-addon1">Конечная координата \( x \)</span>
+                    <input type="number" class="form-control" id="x" placeholder="0" aria-label="Username"
+                           aria-describedby="basic-addon1" value="400">
+                </div>
+                <div class="input-group mt-3">
+                    <span class="input-group-text" id="basic-addon1">Конечная координата \( y \)</span>
+                    <input type="number" class="form-control" id="y" placeholder="0" aria-label="Username"
+                           aria-describedby="basic-addon1" value="300">
+                </div>
+
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <div id="formula">
+                        <h2 class="text-light mt-4">Формула: <span class="badge fs-1"
+                                                                   style="background: rgba(172,100,255,0.54)">
+                            \( S_x = x - x_0 \)<br>
+        \( S_y = y - y_0 \)</span>
+                        </h2>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <ul class="list-group">
+                    <li class="list-group-item active text-light fs-3"
+                        style="background: rgba(172,100,255,0.54); border-color: whitesmoke" aria-current="true">
+                        Переменные
+                    </li>
+                    <li class="list-group-item bg-transparent text-light fs-4">\( S_{x} \) - Это переменная, представляющая собой горизонтальную составляющую вектора перемещения от начальной точки до конечной точки по оси 𝑥
+                    </li>
+                    <li class="list-group-item bg-transparent text-light fs-4">\( S_{y} \) - Это переменная, представляющая собой вертикальную составляющую вектора перемещения от начальной точки до конечной точки по оси 𝑦
+                    </li>
+                    <li class="list-group-item bg-transparent text-light fs-4">\( x, y \) - Это координаты конечной точки вектора перемещения.
+                    </li>
+                    <li class="list-group-item bg-transparent text-light fs-4">\( x_{0}, y_{0} \) - Это координаты начальной точки вектора перемещения.
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+
+    </div>
+
+    <script>
+        function setup() {
+            let content = document.getElementById('content');
+            let canvas = createCanvas(content.offsetWidth, content.offsetHeight);
+            canvas.parent(content);
+            canvas.style('border-radius', '10px');
+        }
+
+        function draw() {
+            background(164, 84, 255);
+
+            let x0 = parseFloat(document.getElementById('x0').value);
+            let y0 = parseFloat(document.getElementById('y0').value);
+            let x = parseFloat(document.getElementById('x').value);
+            let y = parseFloat(document.getElementById('y').value);
+
+            let Sx = x - x0;
+            let Sy = y - y0;
+
+            // Draw initial and final points
+            fill(255);
+            ellipse(x0, y0, 10, 10);
+            ellipse(x, y, 10, 10);
+
+            // Draw the displacement vector
+            stroke(255);
+            strokeWeight(2);
+            line(x0, y0, x, y);
+
+            // Display displacement vector components
+            textSize(18);
+            noStroke()
+            fill(255);
+            text(`Sx = ${Sx}`, 50, height - 100);
+            text(`Sy = ${Sy}`, 50, height - 70);
+
+            // Display the vector components on the canvas
+            stroke(255, 0, 0);
+            strokeWeight(1);
+            line(x0, y0, x, y0); // Horizontal projection
+            line(x, y0, x, y);   // Vertical projection
+
+            // Add labels to the projections
+            fill(255, 0, 0);
+            text(`Sx`, (x0 + x) / 2, y0 - 10);
+            text(`Sy`, x + 10, (y0 + y) / 2);
+        }
+    </script>
+{% endblock %}

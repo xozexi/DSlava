@@ -1,0 +1,127 @@
+{% extends "base.html" %}
+
+{% block title %}8 класс{% endblock %}
+
+<style>
+</style>
+{% block content %}
+    <h1 class="text-center my-4" style="color: #4f76ff; font-weight: 700">Закон преломления света</h1>
+    <div class="container mb-4">
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                {% for message in messages %}
+
+                    <div class="alert alert-danger" role="alert">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        <div class="container py-5 px-5" style="background: rgba(150,70,241,0.54); border-radius: 10px">
+            <div id="content" style="height: 400px; border-radius: 10px"></div>
+            <div id="controls">
+                <div class="input-group mt-3">
+                    <span class="input-group-text" id="basic-addon1">Показатель преломления (n1)</span>
+                    <input type="number" class="form-control" id="n1" placeholder="0" aria-label="Username"
+                           aria-describedby="basic-addon1" value="10" step="0.1">
+                </div>
+                <div class="input-group mt-3">
+                    <span class="input-group-text" id="basic-addon1">Показатель преломления (n2)</span>
+                    <input type="number" class="form-control" id="n2" placeholder="0" aria-label="Username"
+                           aria-describedby="basic-addon1" value="5" step="0.1">
+                </div>
+                <div class="input-group mt-3">
+                    <span class="input-group-text" id="basic-addon1">Угол падения (α, градусы)</span>
+                    <input type="number" class="form-control" id="alpha" placeholder="0" aria-label="Username"
+                           aria-describedby="basic-addon1" value="5" step="1">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <div id="formula">
+                        <h2 class="text-light mt-4">Формула: <span class="badge fs-1"
+                                                                   style="background: rgba(172,100,255,0.54)">
+                           \( \frac{\sin \alpha}{\sin \beta} = \frac{n_2}{n_1} \)</span>
+                        </h2>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <ul class="list-group">
+                    <li class="list-group-item active text-light fs-3"
+                        style="background: rgba(172,100,255,0.54); border-color: whitesmoke" aria-current="true">
+                        Переменные
+                    </li>
+                    <li class="list-group-item bg-transparent text-light fs-4">\( \alpha \) (угол падения) — угол между падающим лучом света и нормалью к поверхности на границе двух сред.
+                    </li>
+                    <li class="list-group-item bg-transparent text-light fs-4">\( \beta \) (угол преломления) — угол между преломленным лучом света и нормалью к поверхности на границе двух сред.
+                    </li>
+                    <li class="list-group-item bg-transparent text-light fs-4">\( n_{1} \) — показатель преломления первой среды. Это величина, показывающая, насколько сильно среда замедляет прохождение света.
+                    </li>
+                    <li class="list-group-item bg-transparent text-light fs-4">\( n_{2} \) — показатель преломления второй среды.
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+
+    </div>
+
+    <script>
+        function setup() {
+            let content = document.getElementById('content');
+            let canvas = createCanvas(content.offsetWidth, content.offsetHeight);
+            canvas.parent(content);
+            canvas.style('border-radius', '10px');
+        }
+
+        function draw() {
+            background(164, 84, 255);
+
+            let n1 = parseFloat(document.getElementById('n1').value);
+            let n2 = parseFloat(document.getElementById('n2').value);
+            let alpha = radians(parseFloat(document.getElementById('alpha').value));
+
+            let sinAlpha = sin(alpha);
+            let sinBeta = sinAlpha * n1 / n2;
+            let beta = asin(sinBeta);
+
+            // Display Snell's law formula and variables
+            textSize(24);
+            fill(255);
+            noStroke()
+            textSize(18);
+            text(`Показатель преломления первой среды (n1): ${n1}`, 50, 50);
+            text(`Показатель преломления второй среды (n2): ${n2}`, 50, 80);
+            text(`Угол падения (α): ${degrees(alpha).toFixed(2)}°`, 50, 110);
+            text(`Угол преломления (β): ${degrees(beta).toFixed(2)}°`, 50, 140);
+
+            // Draw incident and refracted rays
+            drawRays(alpha, beta);
+        }
+
+        function drawRays(alpha, beta) {
+            stroke(255);
+            strokeWeight(2);
+
+            // Draw normal line
+            line(width / 2, 0, width / 2, height);
+
+            // Draw incident ray
+            let incidentX = width / 2 - 200 * cos(alpha);
+            let incidentY = height / 2 - 200 * sin(alpha);
+            stroke(0,0,255)
+            line(incidentX, incidentY, width / 2, height / 2);
+
+            // Draw refracted ray
+            let refractedX = width / 2 + 200 * cos(beta);
+            let refractedY = height / 2 + 200 * sin(beta);
+            stroke(0,255,0)
+            line(width / 2, height / 2, refractedX, refractedY);
+
+            // Draw medium boundary
+            stroke(255, 0, 0);
+            line(0, height / 2, width, height / 2);
+        }
+    </script>
+{% endblock %}

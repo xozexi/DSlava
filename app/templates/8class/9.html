@@ -1,0 +1,117 @@
+{% extends "base.html" %}
+
+{% block title %}8 класс{% endblock %}
+
+<style>
+</style>
+{% block content %}
+    <h1 class="text-center my-4" style="color: #4f76ff; font-weight: 700">Закон Джоуля – Ленца</h1>
+    <div class="container mb-4">
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                {% for message in messages %}
+
+                    <div class="alert alert-danger" role="alert">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        <div class="container py-5 px-5" style="background: rgba(150,70,241,0.54); border-radius: 10px">
+            <div id="content" style="height: 400px; border-radius: 10px"></div>
+            <div id="controls">
+                <div class="input-group mt-3">
+                    <span class="input-group-text" id="basic-addon1">Сопротивление (R, Ω)</span>
+                    <input type="number" class="form-control" id="resistance" placeholder="0" aria-label="Username"
+                           aria-describedby="basic-addon1" value="10" step="0.1">
+                </div>
+                <div class="input-group mt-3">
+                    <span class="input-group-text" id="basic-addon1">Сила тока (I, A)</span>
+                    <input type="number" class="form-control" id="current" placeholder="0" aria-label="Username"
+                           aria-describedby="basic-addon1" value="5" step="0.1">
+                </div>
+                <div class="input-group mt-3">
+                    <span class="input-group-text" id="basic-addon1">Время (t, s)</span>
+                    <input type="number" class="form-control" id="time" placeholder="0" aria-label="Username"
+                           aria-describedby="basic-addon1" value="5" step="0.1">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <div id="formula">
+                        <h2 class="text-light mt-4">Формула: <span class="badge fs-1"
+                                                                   style="background: rgba(172,100,255,0.54)">
+                           \( Q = I^2 R t \)</span>
+                        </h2>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <ul class="list-group">
+                    <li class="list-group-item active text-light fs-3"
+                        style="background: rgba(172,100,255,0.54); border-color: whitesmoke" aria-current="true">
+                        Переменные
+                    </li>
+                    <li class="list-group-item bg-transparent text-light fs-4">\( Q \) (Количество теплоты) — это количество тепловой энергии, выделяемое в проводнике за определённый промежуток времени. Измеряется в джоулях (J).
+                    </li>
+                    <li class="list-group-item bg-transparent text-light fs-4">\( I \) (Сила тока) — это количество электрического заряда, проходящего через сечение проводника за единицу времени. Измеряется в амперах (A).
+                    </li>
+                    <li class="list-group-item bg-transparent text-light fs-4">\( R \) (Сопротивление) — это величина, характеризующая способность проводника сопротивляться прохождению электрического тока. Измеряется в омах (Ω).
+                    </li>
+                    <li class="list-group-item bg-transparent text-light fs-4">\( t \) (Время) — это промежуток времени, в течение которого течет ток. Измеряется в секундах (s).
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+
+    </div>
+
+    <script>
+        function setup() {
+            let content = document.getElementById('content');
+            let canvas = createCanvas(content.offsetWidth, content.offsetHeight);
+            canvas.parent(content);
+            canvas.style('border-radius', '10px');
+        }
+
+        function draw() {
+            background(164, 84, 255);
+
+            let current = parseFloat(document.getElementById('current').value);
+            let resistance = parseFloat(document.getElementById('resistance').value);
+            let time = parseFloat(document.getElementById('time').value);
+
+            let heat = current * current * resistance * time;
+
+            // Display heat calculation formula and variables
+            textAlign(LEFT)
+            textSize(24);
+            fill(255);
+            text(`Q = I^2 * R * t`, 50, 50);
+            textSize(18);
+            text(`Сила тока (I): ${current} A`, 50, 100);
+            text(`Сопротивление (R): ${resistance} Ω`, 50, 130);
+            text(`Время (t): ${time} s`, 50, 160);
+            text(`Количество теплоты (Q): ${heat.toFixed(2)} J`, 50, 200);
+
+            // Draw a visualization for heat
+            drawHeatVisualization(heat);
+        }
+
+        function drawHeatVisualization(heat) {
+            let maxHeat = 10000; // Maximum heat for visualization scaling
+            let circleDiameter = map(heat, 0, maxHeat, 0, height - 200);
+
+            // Draw the heat circle
+            fill(255, 0, 0);
+            ellipse(width / 2, height / 2, circleDiameter, circleDiameter);
+
+            // Draw the heat label
+            fill(255);
+            textSize(18);
+            textAlign(CENTER);
+            text(`${heat.toFixed(2)} J`, width / 2, height / 2);
+        }
+    </script>
+{% endblock %}

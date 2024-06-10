@@ -1,0 +1,127 @@
+{% extends "base.html" %}
+
+{% block title %}8 класс{% endblock %}
+
+<style>
+</style>
+{% block content %}
+    <h1 class="text-center my-4" style="color: #4f76ff; font-weight: 700">Сила тока</h1>
+    <div class="container mb-4">
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                {% for message in messages %}
+
+                    <div class="alert alert-danger" role="alert">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        <div class="container py-5 px-5" style="background: rgba(150,70,241,0.54); border-radius: 10px">
+            <div id="content" style="height: 400px; border-radius: 10px"></div>
+            <div id="controls">
+                <div class="input-group mt-3">
+                    <span class="input-group-text" id="basic-addon1">Заряд (q, C)</span>
+                    <input type="number" class="form-control" id="charge" placeholder="0" aria-label="Username"
+                           aria-describedby="basic-addon1" value="1" step="0.1">
+                </div>
+                <div class="input-group mt-3">
+                    <span class="input-group-text" id="basic-addon1">Время (t, s)</span>
+                    <input type="number" class="form-control" id="time" placeholder="0" aria-label="Username"
+                           aria-describedby="basic-addon1" value="1" step="0.1">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <div id="formula">
+                        <h2 class="text-light mt-4">Формула: <span class="badge fs-1"
+                                                                   style="background: rgba(172,100,255,0.54)">
+                            \( I = \frac{q}{t} \)</span>
+                        </h2>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <ul class="list-group">
+                    <li class="list-group-item active text-light fs-3" style="background: rgba(172,100,255,0.54); border-color: whitesmoke" aria-current="true">Переменные</li>
+                    <li class="list-group-item bg-transparent text-light fs-4">\( I \) - Это скорость потока электрических зарядов. Чем больше заряд проходит через проводник за единицу времени, тем больше сила тока.</li>
+                    <li class="list-group-item bg-transparent text-light fs-4">\( q \) - Это общее количество заряда, которое проходит через проводник. Электрический заряд измеряется в кулонах (Кл), где 1 кулон - это заряд одного электрона.</li>
+                    <li class="list-group-item bg-transparent text-light fs-4">\( t \) - Это период времени, в течение которого измеряется количество электричества.</li>
+                </ul>
+            </div>
+        </div>
+
+
+    </div>
+
+    <script>
+        function setup() {
+            let content = document.getElementById('content');
+            let canvas = createCanvas(content.offsetWidth, content.offsetHeight);
+            canvas.parent(content);
+            canvas.style('border-radius', '10px');
+            angleMode(DEGREES);
+        }
+
+        function draw() {
+            background(164, 84, 255);
+
+            let charge = parseFloat(document.getElementById('charge').value);
+            let time = parseFloat(document.getElementById('time').value);
+
+            let current = charge / time;
+
+            // Display current calculation formula and variables
+            textSize(24);
+            fill(255);
+            text(`I = q / t`, 100, 50);
+            textSize(18);
+            text(`Заряд (q): ${charge} C`, 100, 100);
+            text(`Время (t): ${time} s`, 100, 130);
+            text(`Сила тока (I): ${current.toFixed(2)} A`, 100, 160);
+
+            // Draw the ammeter
+            drawAmmeter(current);
+        }
+
+        function drawAmmeter(current) {
+            translate(width / 2, height / 2);
+
+            // Draw the outer circle
+            stroke(255);
+            strokeWeight(4);
+            noFill();
+            ellipse(0, 0, 300, 300);
+
+            // Draw the ticks
+            for (let angle = -90; angle <= 90; angle += 10) {
+                let x1 = cos(angle) * 140;
+                let y1 = sin(angle) * 140;
+                let x2 = cos(angle) * 150;
+                let y2 = sin(angle) * 150;
+                strokeWeight(2);
+                line(x1, y1, x2, y2);
+
+                // Draw numbers
+                let xText = cos(angle) * 180;
+                let yText = sin(angle) * 180;
+                noStroke();
+                fill(255);
+                textSize(16);
+                textAlign(CENTER, CENTER);
+                text(Math.round((angle + 90) / 18 * 2)/2, xText, yText);
+            }
+
+            // Draw the needle
+            let needleAngle = map(current, 0, 10, -90, 90); // Adjust the range as needed
+            stroke(255, 0, 0);
+            strokeWeight(4);
+            line(0, 0, cos(needleAngle) * 140, sin(needleAngle) * 140);
+
+            // Draw the center of the needle
+            fill(255, 0, 0);
+            noStroke();
+            ellipse(0, 0, 10, 10);
+        }
+    </script>
+{% endblock %}

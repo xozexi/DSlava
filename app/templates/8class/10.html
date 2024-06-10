@@ -1,0 +1,108 @@
+{% extends "base.html" %}
+
+{% block title %}8 класс{% endblock %}
+
+<style>
+</style>
+{% block content %}
+    <h1 class="text-center my-4" style="color: #4f76ff; font-weight: 700">Электроёмкость</h1>
+    <div class="container mb-4">
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                {% for message in messages %}
+
+                    <div class="alert alert-danger" role="alert">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        <div class="container py-5 px-5" style="background: rgba(150,70,241,0.54); border-radius: 10px">
+            <div id="content" style="height: 400px; border-radius: 10px"></div>
+            <div id="controls">
+                <div class="input-group mt-3">
+                    <span class="input-group-text" id="basic-addon1">Заряд (q, C)</span>
+                    <input type="number" class="form-control" id="charge" placeholder="0" aria-label="Username"
+                           aria-describedby="basic-addon1" value="10" step="0.1">
+                </div>
+                <div class="input-group mt-3">
+                    <span class="input-group-text" id="basic-addon1">Напряжение (U, V)</span>
+                    <input type="number" class="form-control" id="voltage" placeholder="0" aria-label="Username"
+                           aria-describedby="basic-addon1" value="5" step="0.1">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <div id="formula">
+                        <h2 class="text-light mt-4">Формула: <span class="badge fs-1"
+                                                                   style="background: rgba(172,100,255,0.54)">
+                           \( C = \frac{q}{U} \)</span>
+                        </h2>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <ul class="list-group">
+                    <li class="list-group-item active text-light fs-3"
+                        style="background: rgba(172,100,255,0.54); border-color: whitesmoke" aria-current="true">
+                        Переменные
+                    </li>
+                    <li class="list-group-item bg-transparent text-light fs-4">\( C \) (Ёмкость) — это величина, характеризующая способность проводника накапливать электрический заряд при заданном напряжении. Измеряется в фарадах (F).
+                    </li>
+                    <li class="list-group-item bg-transparent text-light fs-4">\( q \) (Заряд) — это количество электрического заряда, который накоплен на проводнике. Измеряется в кулонах (C).
+                    </li>
+                    <li class="list-group-item bg-transparent text-light fs-4">\( U \)  (Напряжение) — это разность электрических потенциалов между двумя точками. Измеряется в вольтах (V).
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+
+    </div>
+
+    <script>
+        function setup() {
+            let content = document.getElementById('content');
+            let canvas = createCanvas(content.offsetWidth, content.offsetHeight);
+            canvas.parent(content);
+            canvas.style('border-radius', '10px');
+        }
+
+        function draw() {
+            background(164, 84, 255);
+
+            let charge = parseFloat(document.getElementById('charge').value);
+            let voltage = parseFloat(document.getElementById('voltage').value);
+
+            let capacitance = charge / voltage;
+
+            // Display capacitance calculation formula and variables
+            textAlign(LEFT)
+            textSize(24);
+            fill(255);
+            text(`C = q / U`, 50, 50);
+            textSize(18);
+            text(`Заряд (q): ${charge} C`, 50, 100);
+            text(`Напряжение (U): ${voltage} V`, 50, 130);
+            text(`Ёмкость (C): ${capacitance.toFixed(2)} F`, 50, 160);
+
+            // Draw a visualization for capacitance
+            drawCapacitanceVisualization(capacitance);
+        }
+
+        function drawCapacitanceVisualization(capacitance) {
+            let maxCapacitance = 10; // Maximum capacitance for visualization scaling
+            let circleDiameter = map(capacitance, 0, maxCapacitance, 0, height - 200);
+
+            // Draw the capacitance circle
+            fill(0, 255, 0);
+            ellipse(width / 2, height / 2, circleDiameter, circleDiameter);
+
+            // Draw the capacitance label
+            fill(255);
+            textSize(18);
+            textAlign(CENTER);
+            text(`${capacitance.toFixed(2)} F`, width / 2, height / 2);
+        }
+    </script>
+{% endblock %}
