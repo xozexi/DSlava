@@ -1,0 +1,125 @@
+{% extends "base.html" %}
+
+{% block title %}9 класс{% endblock %}
+
+<style>
+</style>
+{% block content %}
+    <h1 class="text-center my-4" style="color: #4f76ff; font-weight: 700">Скорость при равномерном движении</h1>
+    <div class="container mb-4">
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                {% for message in messages %}
+
+                    <div class="alert alert-danger" role="alert">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        <div class="container py-5 px-5" style="background: rgba(150,70,241,0.54); border-radius: 10px">
+            <div id="content" style="height: 400px; border-radius: 10px"></div>
+            <div id="controls">
+                <div class="input-group mt-3">
+                    <span class="input-group-text" id="basic-addon1">Перемещение \( \vec{s} \)</span>
+                    <input type="number" class="form-control" id="displacement" placeholder="0" aria-label="Username"
+                           aria-describedby="basic-addon1" value="50">
+                </div>
+                <div class="input-group mt-3">
+                    <span class="input-group-text" id="basic-addon1">Время \( t \) </span>
+                    <input type="number" class="form-control" id="time" placeholder="0" aria-label="Username"
+                           aria-describedby="basic-addon1" value="2">
+                </div>
+
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <div id="formula">
+                        <h2 class="text-light mt-4">Формула: <span class="badge fs-1"
+                                                                   style="background: rgba(172,100,255,0.54)">
+                            \( \vec{v} = \frac{\vec{s}}{t} \)</span>
+                        </h2>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <ul class="list-group">
+                    <li class="list-group-item active text-light fs-3"
+                        style="background: rgba(172,100,255,0.54); border-color: whitesmoke" aria-current="true">
+                        Переменные
+                    </li>
+                    <li class="list-group-item bg-transparent text-light fs-4">\(\vec{v}\) — скорость при равномерном движении. Это векторная величина, которая показывает, какое расстояние проходит объект в единицу времени. Измеряется в метрах в секунду (м/с).
+                    </li>
+                    <li class="list-group-item bg-transparent text-light fs-4">\(\vec{s}\) — перемещение. Это векторная величина, которая показывает изменение положения объекта в пространстве. Измеряется в метрах (м).
+                    </li>
+                    <li class="list-group-item bg-transparent text-light fs-4"> \( t \) — время. Это скалярная величина, которая показывает продолжительность движения объекта. Измеряется в секундах (с).
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+
+    </div>
+
+    <script>
+        let displacement;
+        let time;
+        let speed;
+        let t = 0;
+        let s = 0;
+
+        function setup() {
+            let content = document.getElementById('content');
+            let canvas = createCanvas(content.offsetWidth, content.offsetHeight);
+            canvas.parent(content);
+            canvas.style('border-radius', '10px');
+            displacement = parseFloat(document.getElementById('displacement').value);
+            time = parseFloat(document.getElementById('time').value);
+            speed = displacement / time;
+        }
+
+        function draw() {
+            background(164, 84, 255);
+
+            // Update position based on time
+            t += 0.1;
+            s = speed * t;
+
+            // Reset if the object moves out of bounds
+            if (s > width) {
+                t = 0;
+                s = 0;
+            }
+
+            // Draw the object
+            fill(0, 0, 0, 0);
+            stroke(255);
+            ellipse(s, height / 2+100, 20, 20);
+            noStroke();
+
+            // Display the formula and variables
+            textSize(24);
+            fill(255);
+            text(`v = s / t`, 50, 50);
+            textSize(18);
+            text(`Перемещение (s): ${displacement} м`, 50, 100);
+            text(`Время (t): ${time} с`, 50, 130);
+            text(`Скорость (v): ${(speed).toFixed(2)} м/с`, 50, 160);
+            text(`Текущее время (t): ${t.toFixed(2)} с`, 50, 190);
+            text(`Текущее перемещение (s): ${s.toFixed(2)} м`, 50, 220);
+        }
+
+        // Update values on input change
+        document.getElementById('displacement').addEventListener('input', () => {
+            displacement = parseFloat(document.getElementById('displacement').value);
+            speed = displacement / time;
+            t = 0;
+        });
+
+        document.getElementById('time').addEventListener('input', () => {
+            time = parseFloat(document.getElementById('time').value);
+            speed = displacement / time;
+            t = 0;
+        });
+    </script>
+{% endblock %}
