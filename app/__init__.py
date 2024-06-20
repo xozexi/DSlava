@@ -8,7 +8,7 @@ from itsdangerous import URLSafeTimedSerializer
 from sqlalchemy import desc
 
 from app.settings import app
-from app.models import db, User, Role
+from app.models import db, User, Role, Question, Theme, QType
 
 
 class AdminView(ModelView):
@@ -27,7 +27,11 @@ class HomeAdminView(AdminIndexView):
         return redirect(url_for('index'))
 
 
-admin = Admin(app, 'Назад', url='/', index_view=HomeAdminView(), template_mode='bootstrap4')
+admin = Admin(app, 'Назад', url='/', index_view=HomeAdminView())
 user_datastore = SQLAlchemyUserDatastore(db, User, Role)
 admin.add_view(AdminView(User, db.session, name='Пользователи'))
+admin.add_view(AdminView(Role, db.session, name='Роли'))
+admin.add_view(AdminView(Theme, db.session, name='Темы'))
+admin.add_view(AdminView(Question, db.session, name='Вопросы'))
+admin.add_view(AdminView(QType, db.session, name='Типы вопросов'))
 security = Security(app, user_datastore)

@@ -5,24 +5,26 @@
 {% block content %}
     <div class="container">
         <form class="justify-content-center" method="post"
-              style="background: #8392cb; padding: 20px; border-radius: 10px; max-width: 500px; margin: 0 auto; display: flex; flex-direction: column; margin-top: 15vh">
-            <img class="mx-auto d-block" src="{{ url_for('static', filename='res/logo.png') }}" alt="logo"
-                 width="100px">
+              style="background: #7203cc; padding: 20px; border-radius: 10px; max-width: 500px; margin: 0 auto; display: flex; flex-direction: column; margin-top: 15vh">
+        <div class="text-center">
+            <i class="bi bi-boxes text-center justify-content-center" style="color: white; font-size: 50px"></i>
+        </div>
+
             <div class="form-group">
-                <label for="exampleInputEmail1" class="font-weight-bold">Логин</label>
+                <label for="exampleInputEmail1" class="font-weight-bold text-light">Логин</label>
                 <input name="login" type="text" class="form-control" id="exampleInputEmail1"
                        aria-describedby="emailHelp" placeholder="Введите логин">
                 {#    <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>#}
             </div>
             <div class="form-group">
-                <label for="exampleInputPassword1" class="font-weight-bold">Пароль</label>
+                <label for="exampleInputPassword1" class="font-weight-bold text-light">Пароль</label>
                 <input name="password" type="password" class="form-control" id="exampleInputPassword1"
                        placeholder="Пароль">
             </div>
             <button type="submit" class="btn bg-success text-light mt-4">Войти</button>
             {% with messages = get_flashed_messages() %}
                 {% if messages %}
-                    <div class="notification is-danger">
+                    <div class="notification is-danger text-light">
                         {{ messages[0] }}
                     </div>
                 {% endif %}
