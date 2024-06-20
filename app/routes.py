@@ -32,8 +32,7 @@ def login_required(f):
 
 @app.route('/')
 def index():
-    # return render_template('index.html')
-    return redirect(url_for("class7"))
+    return render_template('index.html')
 
 
 @app.route('/7-class')
