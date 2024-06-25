@@ -9,7 +9,7 @@ from wtforms.fields import SubmitField
 from wtforms.validators import DataRequired, ValidationError
 
 from app import app
-from app.models import User
+from app.models import User, Code, Question
 from flask import flash, redirect, render_template, request, url_for, jsonify
 from sqlalchemy import or_, func, text, asc, desc
 
@@ -57,6 +57,32 @@ def class9():
     if theme:
         return render_template(f'9class/{theme}.html')
     return render_template('9class.html')
+
+
+@app.route('/testCode', methods=['GET', 'POST'])
+def codetest():
+    if request.method == 'POST':
+        code = request.form['code']
+        if Code.query.filter_by(code=code).first():
+            return redirect(url_for('quest'))
+        else:
+            flash('Код неверный')
+        return redirect(url_for('codetest'))
+    else:
+        return render_template("testCode.html")
+
+
+@app.route('/quest', methods=['GET', 'POST'])
+def quest():
+    if request.method == 'POST':
+        code = request.form['code']
+        if Code.query.filter_by(code=code).first():
+            flash('Код верный')
+        else:
+            flash('Код неверный')
+        return redirect(url_for('quest'))
+    else:
+        return render_template("quest.html", quests=Question.query.all())
 
 
 @app.route('/signin', methods=['GET', 'POST'])

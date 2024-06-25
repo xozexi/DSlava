@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block title %}2D MDL{% endblock %}
+{% block content %}
+    <div class="container mb-4">
+
+
+        <div class="container" style="margin-top: 100px">
+            <div class="row">
+                <div class="col-12 text-center">
+                    <h1 class="text-center text-light" style="font-size: 80px">Задания</h1>
+                </div>
+            </div>
+        </div>
+        <div class="container mt-5 py-5 px-5" style="background: rgba(150,70,241,0.54); border-radius: 10px">
+            <form method="post" class="justify-content-end">
+                <div class="input-group fs-1">
+                    <span class="input-group-text fs-2" id="basic-addon3">Код</span>
+                    <input style="background: rgba(131,0,255,0.32)" type="text"
+                           class="form-control text-light fs-2 text-center" id="code"
+                           aria-describedby="basic-addon3 basic-addon4" name="code">
+                </div>
+                <button type="submit" style="background: #aa00ff; border-color: #aa00ff;" class="btn btn-primary mt-3 fs-2 justify-content-end">Отправить</button>
+            </form>
+            {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                    {% for message in messages %}
+
+                        <div class="alert alert-danger mt-3" role="alert">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+        </div>
+    </div>
+{% endblock %}

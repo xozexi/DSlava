@@ -62,20 +62,22 @@ class Theme(db.Model):
 class Question(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
     text = db.Column(db.Text(), unique=True, nullable=False)
-
     answer = db.Column(db.String(255))
-    type = db.Column(db.Integer(), db.ForeignKey('qtypes.id'))
-    theme_id = db.Column(db.Integer(), db.ForeignKey('themes.id'))
+    # theme_id = db.Column(db.Integer(), db.ForeignKey('themes.id'), name='fk_question_theme', nullable=False)
 
     def __repr__(self):
         return f'<Question {self.text}>'
 
-class QType(db.Model):
-    __tablename__ = 'qtypes'
+
+class Code(db.Model):
+    __tablename__ = 'codes'
     id = db.Column(db.Integer(), primary_key=True)
-    name = db.Column(db.String(255), unique=True, nullable=False)
+    code = db.Column(db.Text(), unique=True, nullable=False)
 
-    questions = db.relationship('Question', backref='qtype', lazy=True)
 
-    def __repr__(self):
-        return f'<QType {self.name}>'
+class reuslt(db.Model):
+    __tablename__ = 'result'
+    id = db.Column(db.Integer(), primary_key=True)
+    name = db.Column(db.String(255), nullable=False)
+    user_class = db.Column(db.String(255), nullable=False)
+    result = db.Column(db.Text(),nullable=False)

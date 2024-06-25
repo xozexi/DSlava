@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+
+{% block title %}2D MDL{% endblock %}
+{% block content %}
+    <div class="container mb-4">
+
+
+        <div class="container" style="margin-top: 100px">
+            <div class="row">
+                <div class="col-12 text-center">
+                    <h1 class="text-center text-light" style="font-size: 80px">Задания</h1>
+                </div>
+            </div>
+        </div>
+        <div class="container mt-5 py-5 px-5" style="background: rgba(150,70,241,0.54); border-radius: 10px">
+            <form method="post">
+                <div class="row my-5 mx-5">
+                    <div class="col-12">
+                        <h2 class="text-light"> ФИО
+                        </h2>
+                        <div class="input-group fs-1">
+                            <span class="input-group-text fs-3" id="basic-addon3">ФИО:</span>
+                            <input style="background: rgba(131,0,255,0.32)" type="text"
+                                   class="form-control text-light fs-3 text-center" id="FIO"
+                                   aria-describedby="basic-addon3 basic-addon4" name="code" required>
+                        </div>
+                    </div>
+                </div>
+                <div class="row my-5 mx-5">
+                    <div class="col-12">
+                        <h2 class="text-light"> Класс
+                        </h2>
+                        <div class="input-group fs-1">
+                            <span class="input-group-text fs-3" id="basic-addon3">Класс:</span>
+                            <input style="background: rgba(131,0,255,0.32)" type="text"
+                                   class="form-control text-light fs-3 text-center" id="class"
+                                   aria-describedby="basic-addon3 basic-addon4" name="code" required>
+                        </div>
+                    </div>
+                </div>
+            <hr class="border border-light border-3 opacity-75">
+                {% for q in quests %}
+                    <div class="row my-5 mx-5">
+                        <div class="col-12">
+                            <h2 class="text-light"> Вопрос: {{ q.id }}
+                                {{ q.text }}
+                            </h2>
+                            <div class="input-group fs-1">
+                                <span class="input-group-text fs-3" id="basic-addon3">Ответ:</span>
+                                <input style="background: rgba(131,0,255,0.32)" type="text"
+                                       class="form-control text-light fs-3 text-center" id="{{ q.id }}"
+                                       aria-describedby="basic-addon3 basic-addon4" name="code" required>
+                            </div>
+                        </div>
+                    </div>
+
+                {% endfor %}
+
+                <button type="submit" style="background: #aa00ff; border-color: #aa00ff"
+                        class="btn btn-primary mt-3 justify-content-center fs-2">Отправить
+                </button>
+            </form>
+
+        </div>
+    </div>
+{% endblock %}

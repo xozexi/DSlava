@@ -14,28 +14,240 @@
             {% endif %}
         {% endwith %}
 
-    <div class="container" style="margin-top: 100px">
-        <div class="row">
-            <div class="col-12 text-center">
-                <i class="bi bi-boxes" style="color: white; font-size:100px; margin-top: 100px"></i>
+        <div class="container" style="margin-top: 100px">
+            <div class="row">
+                <div class="col-12 text-center">
+                    <i class="bi bi-boxes" style="color: white; font-size:100px; margin-top: 100px"></i>
+                </div>
+                <div class="col-12 text-center">
+                    <h1 class="text-center text-light" style="font-size: 80px">Физика 2D</h1>
+                </div>
             </div>
-            <div class="col-12 text-center">
-                <h1 class="text-center text-light" style="font-size: 80px">Физика 2D</h1>
+            <div class="row mt-5">
+                <div class="col-12">
+                    <h1 class="text-center text-light" style="opacity: .7">Это WEB - приложение способно визуализировать
+                        физические законы и процессы прямо в твоей браузере</h1>
+                </div>
             </div>
         </div>
-        <div class="row mt-5">
-            <div class="col-12">
-                <h1 class="text-center text-light" style="opacity: .7">Это WEB - приложение способно визуализировать физические законы и процессы прямо в твоей браузере</h1>
-            </div>
-        </div>
-    </div>
         <div class="container mt-5 py-5 px-5" style="background: rgba(150,70,241,0.54); border-radius: 10px">
+            <h2 class="text-light mb-3 text-center">
+                <span class="badge fs-1"
+                      style="background: rgba(172,100,255,0.54)">Что вы найдете на нашем сайте?</span>
+            </h2>
+            <div id="content" style="height: 400px; border-radius: 10px"></div>
 
+            <div class="row">
+                <div class="col-12">
+                    <div class="accordion accordion-flush mt-4" id="accordionFlushExample" style="border-radius: 10px">
+                        <div class="accordion-item" style="border-radius: 10px 10px 0 0 ">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                        data-bs-target="#flush-collapseOne" aria-expanded="false"
+                                        aria-controls="flush-collapseOne"
+                                        style="background: rgb(158,41,255); border-radius: 7px 7px 0 0">
+                                    <h5 class="text-light">Интерактивные Симуляции:</h5>
+                                </button>
+                            </h2>
+                            <div id="flush-collapseOne" class="accordion-collapse collapse"
+                                 data-bs-parent="#accordionFlushExample">
+                                <div class="accordion-body text-light" style="background: #c14bff">Свободное падение:
+                                    Исследуйте, как объекты падают под
+                                    действием гравитации, и поймите влияние массы и сопротивления воздуха.<br>
+                                    Законы Ньютона: Визуализируйте действие сил и их влияние на движение объектов.
+                                    Экспериментируйте с разными массами и силами.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                        data-bs-target="#flush-collapseTwo" aria-expanded="false"
+                                        aria-controls="flush-collapseTwo"
+                                        style="background: rgb(158,41,255); border-radius: 0px 0px 0 0">
+                                    <h5 class="text-light">Анимации и Визуализации:</h5>
+                                </button>
+                            </h2>
+                            <div id="flush-collapseTwo" class="accordion-collapse collapse"
+                                 data-bs-parent="#accordionFlushExample">
+                                <div class="accordion-body text-light" style="background: #c14bff">Просматривайте
+                                    анимации, которые объясняют сложные концепции простым и наглядным способом.<br>
+                                    Используйте оси и векторы для отображения сил и скоростей, чтобы лучше понять, как
+                                    они взаимодействуют.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                        data-bs-target="#flush-collapseThree" aria-expanded="false"
+                                        aria-controls="flush-collapseThree"
+                                        style="background: rgb(158,41,255); border-radius: 0px 0px 0 0">
+                                    <h5 class="text-light">Образовательные Материалы:</h5>
+                                </button>
+                            </h2>
+                            <div id="flush-collapseThree" class="accordion-collapse collapse"
+                                 data-bs-parent="#accordionFlushExample">
+                                <div class="accordion-body text-light" style="background: #c14bff">Читайте подробные
+                                    объяснения каждого закона и явления.<br>
+                                    Выполняйте интерактивные задания и тесты для закрепления знаний.<br>
+                                    Пользуйтесь учебными пособиями и инструкциями для самостоятельного проведения
+                                    экспериментов.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item" style="background: rgb(158,41,255); border-radius: 0 0 7px 7px">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                        data-bs-target="#flush-collapseFour" aria-expanded="false"
+                                        aria-controls="flush-collapseFour"
+                                        style="background: rgb(158,41,255); border-radius: 0 0 7px 7px">
+                                    <h5 class="text-light">Практические Занятия:</h5>
+                                </button>
+                            </h2>
+                            <div id="flush-collapseFour" class="accordion-collapse collapse"
+                                 data-bs-parent="#accordionFlushExample">
+                                <div class="accordion-body text-light" style="background: #c14bff">Решайте задачи и
+                                    примеры с использованием наших симуляций.<br>
+                                    Участвуйте в виртуальных лабораторных работах, которые помогут вам применить
+                                    теоретические знания на практике.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
+            <div class="row">
+                <h2 class="text-light my-4 text-center">
+                <span class="badge fs-1"
+                      style="background: rgba(172,100,255,0.54)">Почему стоит выбрать "Физику 2D"?</span>
+                </h2>
+                <div class="col-12">
+                    <ul class="list-group list-group-flush" style="background: transparent">
+                        <li class="list-group-item" style="background: transparent">
+                            <h4 class="text-light"><strong>Понятно и
+                            Доступно:</strong> Наш сайт разработан с учетом учебной программы 7-8 классов, чтобы сделать
+                            изучение физики понятным и увлекательным.</li>
+                        </h4>
+                        <li class="list-group-item" style="background: transparent"><strong><h4 class="text-light">
+                            Интерактивный Подход:</strong> Визуализация и симуляции помогают лучше понять и запомнить материал, превращая обучение в игру.
+                        </h4></li>
+                        <li class="list-group-item" style="background: transparent"><strong><h4 class="text-light">
+                            Интерактивный Подход:</strong> Визуализация и симуляции помогают лучше понять и запомнить материал, превращая обучение в игру.
+                        </h4></li>
+                    </ul>
+                </div>
+            </div>
 
 
         </div>
 
     </div>
+    <script>
+        let ball;
+        let horizontalSpeedInput = 3, gravityInput = 1;
+        let currentGravity = 0.3;
+        let positions = [];
+
+        function setGravity() {
+            currentGravity = parseFloat(gravityInput);
+        }
+
+        function setup() {
+            let content = document.getElementById('content');
+            let canvas = createCanvas(content.offsetWidth, content.offsetHeight);
+            canvas.parent(content);
+            canvas.style('border-radius', '10px');
+
+            gravityInput = document.getElementById('gravity');
+            currentGravity = parseFloat(gravityInput);
+
+            let initialHorizontalSpeed = parseFloat(horizontalSpeedInput);
+            let initialGravity = parseFloat(gravityInput);
+            ball = new Ball(width / 2, height / 2, initialHorizontalSpeed, initialGravity);
+        }
+
+        function draw() {
+            background(164, 84, 255); // Красный цвет
+
+            let currentHorizontalSpeed = parseFloat(horizontalSpeedInput);
+            ball.setHorizontalSpeed(currentHorizontalSpeed);
+            ball.setGravity(currentGravity);
+
+            ball.update();
+            ball.display();
+            displayTrajectory();
+            displayVelocityVector();
+        }
+
+        function displayTrajectory() {
+            stroke(255, 204, 0);
+            strokeWeight(2);
+            noFill();
+            beginShape();
+            for (let pos of positions) {
+                vertex(pos.x, pos.y);
+            }
+            endShape();
+        }
+
+        function displayVelocityVector() {
+            stroke(0, 255, 0);
+            strokeWeight(2);
+            line(ball.position.x, ball.position.y, ball.position.x, ball.position.y + ball.velocity.y * 10);
+        }
+
+        class Ball {
+            constructor(x, y, horizontalSpeed, gravity) {
+                this.position = createVector(x, y);
+                this.velocity = createVector(horizontalSpeed, 0);
+                this.time = 0;
+                this.horizontalSpeed = horizontalSpeed;
+                this.gravity = gravity;
+            }
+
+            setHorizontalSpeed(speed) {
+                this.horizontalSpeed = speed;
+                this.velocity.x = speed;
+            }
+
+            setGravity(gravity) {
+                this.gravity = gravity;
+            }
+
+            update() {
+                this.position.x += this.horizontalSpeed;
+                this.position.y = height / 2 + sin(this.time) * 100;
+                this.time += 0.05;
+                this.velocity.y = cos(this.time) * 100 * 0.05;
+
+                positions.push(createVector(this.position.x, this.position.y));
+                if (positions.length > 200) { // ограничиваем длину траектории
+                    positions.splice(0, 1);
+                }
+
+                // Проверка, если мяч вышел за правый край холста
+                if (this.position.x > width) {
+                    this.position.x = 0;  // Возвращаем мяч на левую сторону
+                    positions.push(createVector(this.position.x, this.position.y)); // Добавляем новую точку на другой стороне
+                }
+
+                if (this.position.x < 0) {
+                    this.position.x = width;
+                    positions.push(createVector(this.position.x, this.position.y)); // Добавляем новую точку на другой стороне
+                }
+            }
+
+            display() {
+                stroke(250);
+                strokeWeight(2);
+                fill(0, 0, 0, 0);
+                ellipse(this.position.x, this.position.y, 48, 48);
+            }
+        }
+    </script>
+
+
 
 {% endblock %}
