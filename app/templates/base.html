@@ -21,6 +21,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -57,21 +58,31 @@
                             <button class="nav-btn">8 класс</button>
                         </a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link active text-light fs-2" aria-current="page">
-                            <button class="nav-btn position-relative" onclick="showModal()"
-                                    style="background: #220067; color: rgba(107,107,107,0.47); border: solid gray">
-                                9 класс
-                                <i class="bi bi-ban position-absolute start-50 translate-middle"
-                                   style="top: 17px; color: red"></i>
-                            </button>
-                        </a>
-                    </li>
+                    {#                    <li class="nav-item">#}
+                    {#                        <a class="nav-link active text-light fs-2" aria-current="page">#}
+                    {#                            <button class="nav-btn position-relative" onclick="showModal()"#}
+                    {#                                    style="background: #220067; color: rgba(107,107,107,0.47); border: solid gray">#}
+                    {#                                9 класс#}
+                    {#                                <i class="bi bi-ban position-absolute start-50 translate-middle"#}
+                    {#                                   style="top: 17px; color: red"></i>#}
+                    {#                            </button>#}
+                    {#                        </a>#}
+                    {#                    </li>#}
                     <li class="nav-item">
                         <a class="nav-link active text-light fs-2" aria-current="page" href="{{ url_for('codetest') }}">
                             <button class="nav-btn">Задания</button>
                         </a>
                     </li>
+                    {% if current_user.is_authenticated %}
+                        {% if current_user.has_role('admin') %}
+                            <li class="nav-item">
+                                <a class="nav-link active text-light fs-2" aria-current="page"
+                                   href="{{ url_for('result') }}">
+                                    <button class="nav-btn">Результаты заданий</button>
+                                </a>
+                            </li>
+                        {% endif %}
+                    {% endif %}
 
                 </ul>
             </div>

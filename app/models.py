@@ -75,9 +75,11 @@ class Code(db.Model):
     code = db.Column(db.Text(), unique=True, nullable=False)
 
 
-class reuslt(db.Model):
+class Result(db.Model):
     __tablename__ = 'result'
     id = db.Column(db.Integer(), primary_key=True)
+    code = db.Column(db.Text(), nullable=False)
     name = db.Column(db.String(255), nullable=False)
     user_class = db.Column(db.String(255), nullable=False)
-    result = db.Column(db.Text(),nullable=False)
+    result = db.Column(db.Integer(),nullable=False)
+    max = db.Column(db.Integer(), nullable=False)

@@ -10,7 +10,7 @@ from sqlalchemy import desc
 from wtforms.fields.choices import SelectField
 
 from app.settings import app
-from app.models import db, User, Role, Question, Theme, Code
+from app.models import db, User, Role, Question, Theme, Code, Result
 
 
 class AdminView(ModelView):
@@ -51,4 +51,6 @@ admin.add_view(AdminView(User, db.session, name='Пользователи'))
 admin.add_view(AdminView(Role, db.session, name='Роли'))
 admin.add_view(AdminView(Theme, db.session, name='Темы'))
 admin.add_view(QuestionView(Question, db.session, name='Вопросы'))
+admin.add_view(AdminView(Result, db.session, name='Результаты'))
+
 security = Security(app, user_datastore)

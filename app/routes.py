@@ -9,7 +9,7 @@ from wtforms.fields import SubmitField
 from wtforms.validators import DataRequired, ValidationError
 
 from app import app
-from app.models import User, Code, Question
+from app.models import User, Code, Question, Result, db
 from flask import flash, redirect, render_template, request, url_for, jsonify
 from sqlalchemy import or_, func, text, asc, desc
 
@@ -75,15 +75,36 @@ def codetest():
 @app.route('/quest', methods=['GET', 'POST'])
 def quest():
     if request.method == 'POST':
-        code = request.form['code']
-        if Code.query.filter_by(code=code).first():
-            flash('Код верный')
-        else:
-            flash('Код неверный')
-        return redirect(url_for('quest'))
+        FIO = request.form['FIO']
+        cls = request.form['class']
+        answrs = []
+        for i in range(len(Question.query.all())):
+            answrs.append(request.form[f'test{i+1}'])
+        col = 0;
+        print(Code.query.first().code)
+        for i in range(len(answrs)):
+            if answrs[i].lower() == Question.query.all()[i].answer.lower():
+                col += 1
+        res = Result(code=Code.query.first().code, name=FIO, user_class=cls, result=col, max=len(Question.query.all()))
+        db.session.add(res)
+        db.session.commit()
+        return render_template('quest.html', answers=answrs, quests=Question.query.all())
     else:
         return render_template("quest.html", quests=Question.query.all())
 
+
+@app.route('/result')
+def result():
+    codes = db.session.query(Result.code).distinct().all()
+    names = {}
+    results_ = {}
+    for i in codes:
+        namess = Result.query.filter_by(code=i.code).all()
+        print(namess)
+        names[i.code] = [nms.name for nms in namess]
+        results_[i.code] = [nms.result for nms in namess]
+    print(names, results_)
+    return render_template("result.html", codes=codes, Result=Result, names=names, results=results_)
 
 @app.route('/signin', methods=['GET', 'POST'])
 def signin():

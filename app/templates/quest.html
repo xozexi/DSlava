@@ -22,7 +22,7 @@
                             <span class="input-group-text fs-3" id="basic-addon3">ФИО:</span>
                             <input style="background: rgba(131,0,255,0.32)" type="text"
                                    class="form-control text-light fs-3 text-center" id="FIO"
-                                   aria-describedby="basic-addon3 basic-addon4" name="code" required>
+                                   aria-describedby="basic-addon3 basic-addon4" name="FIO" required>
                         </div>
                     </div>
                 </div>
@@ -34,11 +34,11 @@
                             <span class="input-group-text fs-3" id="basic-addon3">Класс:</span>
                             <input style="background: rgba(131,0,255,0.32)" type="text"
                                    class="form-control text-light fs-3 text-center" id="class"
-                                   aria-describedby="basic-addon3 basic-addon4" name="code" required>
+                                   aria-describedby="basic-addon3 basic-addon4" name="class" required>
                         </div>
                     </div>
                 </div>
-            <hr class="border border-light border-3 opacity-75">
+                <hr class="border border-light border-3 opacity-75">
                 {% for q in quests %}
                     <div class="row my-5 mx-5">
                         <div class="col-12">
@@ -47,18 +47,37 @@
                             </h2>
                             <div class="input-group fs-1">
                                 <span class="input-group-text fs-3" id="basic-addon3">Ответ:</span>
-                                <input style="background: rgba(131,0,255,0.32)" type="text"
-                                       class="form-control text-light fs-3 text-center" id="{{ q.id }}"
-                                       aria-describedby="basic-addon3 basic-addon4" name="code" required>
+                                {% if answers is defined %}
+                                    <input style="background: rgba(131,0,255,0.32)" type="text"
+                                           class="form-control text-light fs-3 text-center" id="{{ q.id }}"
+                                           aria-describedby="basic-addon3 basic-addon4" name="test{{ q.id }}" required
+                                           value="{{ answers[q.id-1] }}">
+                                {% else %}
+                                    <input style="background: rgba(131,0,255,0.32)" type="text"
+                                           class="form-control text-light fs-3 text-center" id="{{ q.id }}"
+                                           aria-describedby="basic-addon3 basic-addon4" name="test{{ q.id }}" required>
+                                {% endif %}
+
+
                             </div>
                         </div>
+                        {% if answers is defined %}
+                            {% if q.answer.lower() == answers[q.id-1].lower() %}
+                                <h3 style="color: greenyellow">Верный ответ: {{ q.answer }}</h3>
+                            {% else %}
+                                <h3 style="color: red">Верный ответ: {{ q.answer }}</h3>
+                            {% endif %}
+                        {% endif %}
                     </div>
 
                 {% endfor %}
 
-                <button type="submit" style="background: #aa00ff; border-color: #aa00ff"
+
+            {% if answers is not defined %}
+                  <button type="submit" style="background: #aa00ff; border-color: #aa00ff"
                         class="btn btn-primary mt-3 justify-content-center fs-2">Отправить
                 </button>
+                {% endif %}
             </form>
 
         </div>
